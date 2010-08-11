@@ -35,6 +35,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -45,6 +46,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Adapter\ServerConnectionManager\ConEstablishedMessage.cs" />
+    <Compile Include="Core\PaintContentManager\GetPaintContentRequest.cs" />
+    <Compile Include="Core\PaintContentManager\InitPaintManagerMessage.cs" />
+    <Compile Include="Portal\CloseMessage.cs" />
+    <Compile Include="Adapter\NewAliasMessage.cs" />
+    <Compile Include="Adapter\CloseConnectionMessage.cs" />
+    <Compile Include="Adapter\CurrentPaintContentMessage.cs" />
+    <Compile Include="Adapter\NewPaintMessage.cs" />
+    <Compile Include="Adapter\AliasPaintedMessage.cs" />
+    <Compile Include="Adapter\AliasDisconnectedMessage.cs" />
+    <Compile Include="Adapter\ServerConnectionLostMessage.cs" />
+    <Compile Include="Adapter\ConnectToServerRequest.cs" />
+    <Compile Include="Portal\TakePictureRequest.cs" />
+    <Compile Include="Portal\PaintSelfMessage.cs" />
+    <Compile Include="Portal\ServerClosedMessage.cs" />
+    <Compile Include="Portal\PaintedMessage.cs" />
+    <Compile Include="Portal\RemoveAliasMessage.cs" />
+    <Compile Include="Portal\InitPortalMessage.cs" />
+    <Compile Include="Portal\AddAliasMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
