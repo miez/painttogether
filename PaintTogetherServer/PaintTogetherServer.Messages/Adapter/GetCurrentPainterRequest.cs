@@ -38,6 +38,6 @@ namespace PaintTogetherServer.Messages.Adapter
         /// <summary>
         /// Die an der Malerei aktuell beteiligten Personen
         /// </summary>
-        public KeyValuePair<string, Color>[] Painter { get; set; }
+        public KeyValuePair<string, Color>[] Result { get; set; }
     }
 }

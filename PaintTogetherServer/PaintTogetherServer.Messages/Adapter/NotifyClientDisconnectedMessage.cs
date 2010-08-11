@@ -25,6 +25,7 @@ $Id: HostApplicationForm.cs 450 2009-02-23 17:26:54Z NLBERLIN\mblankenstein $
 
 */
 
+using System.Drawing;
 namespace PaintTogetherServer.Messages.Adapter
 {
     /// <summary>
@@ -40,6 +41,6 @@ namespace PaintTogetherServer.Messages.Adapter
         /// <summary>
         /// Malfarbe des ehemaligen Beteiligten
         /// </summary>
-        public string Color { get; set; }
+        public Color Color { get; set; }
     }
 }

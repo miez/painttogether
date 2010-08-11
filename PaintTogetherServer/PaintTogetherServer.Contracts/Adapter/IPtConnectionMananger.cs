@@ -112,7 +112,7 @@ namespace PaintTogetherServer.Contracts.Adapter
         /// <summary>
         /// Beauftragt die Überwachung auf eingehende Nachrichten eines Sockets
         /// </summary>
-        event Action<StartPortListingMessage> OnStartReceiving;
+        event Action<StartReceivingMessage> OnStartReceiving;
 
         /// <summary>
         /// Beauftragt die Beendigung der Überwachung von eingehenden Nachrichten

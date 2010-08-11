@@ -42,6 +42,6 @@ namespace PaintTogetherServer.Messages.Adapter
         /// <summary>
         /// Malfarbe
         /// </summary>
-        public string Color { get; set; }
+        public Color Color { get; set; }
     }
 }

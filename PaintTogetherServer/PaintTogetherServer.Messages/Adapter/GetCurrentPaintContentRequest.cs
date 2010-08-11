@@ -37,6 +37,6 @@ namespace PaintTogetherServer.Messages.Adapter
         /// <summary>
         /// Der aktuelle Malbereich
         /// </summary>
-        public Bitmap Content { get; set; }
+        public Bitmap Result { get; set; }
     }
 }
