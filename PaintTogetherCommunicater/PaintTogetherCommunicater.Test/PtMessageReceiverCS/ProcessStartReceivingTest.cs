@@ -30,6 +30,7 @@ using NUnit.Framework;
 using PaintTogetherCommunicater.Messages;
 using PaintTogetherCommunicater.Messages.ClientServerCommunication.Server;
 using System.Threading;
+using System.Collections.Generic;
 
 namespace PaintTogetherCommunicater.Test.PtMessageReceiverCS
 {
@@ -64,9 +65,11 @@ namespace PaintTogetherCommunicater.Test.PtMessageReceiverCS
 
             // Dummybytes senden
             var sendBytes = new byte[] { 32, 12, 42, 234, 1, 47 };
-            _senderSocket.Send(PtMessageReceiver.StartBlock);
-            _senderSocket.Send(sendBytes);
-            _senderSocket.Send(PtMessageReceiver.EndBlock);
+            var bytes = new List<byte>();
+            bytes.AddRange(PtMessageReceiver.StartBlock);
+            bytes.AddRange(sendBytes);
+            bytes.AddRange(PtMessageReceiver.EndBlock);
+            _senderSocket.Send(bytes.ToArray());
 
             // Verarbeitung dauert einen kurzen Moment
             Thread.Sleep(5000);
@@ -96,10 +99,11 @@ namespace PaintTogetherCommunicater.Test.PtMessageReceiverCS
             const int sendMessageCount = 1000;
             for (var i = 0; i < sendMessageCount; i++)
             {
-                var sendBytes = new byte[] { 32, 12, 42, 234, 1, 47 };
-                _senderSocket.Send(PtMessageReceiver.StartBlock);
-                _senderSocket.Send(sendBytes);
-                _senderSocket.Send(PtMessageReceiver.EndBlock);
+                var bytes = new List<byte>();
+                bytes.AddRange(PtMessageReceiver.StartBlock);
+                bytes.AddRange(new byte[] { 32, 12, 42, 234, 1, 47 });
+                bytes.AddRange(PtMessageReceiver.EndBlock);
+                _senderSocket.Send(bytes.ToArray());
             }
 
             // Verarbeitung dauert einen kurzen Moment

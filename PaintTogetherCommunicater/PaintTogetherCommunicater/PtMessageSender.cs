@@ -26,6 +26,7 @@ $Id: HostApplicationForm.cs 450 2009-02-23 17:26:54Z NLBERLIN\mblankenstein $
 */
 
 using System;
+using System.Collections.Generic;
 using System.Net.Sockets;
 using log4net;
 using PaintTogetherCommunicater.Contracts;
@@ -100,9 +101,11 @@ namespace PaintTogetherCommunicater
         /// <param name="content"></param>
         private static void SendContent(Socket socket, byte[] content)
         {
-            socket.Send(PtMessageReceiver.StartBlock);
-            socket.Send(content);
-            socket.Send(PtMessageReceiver.EndBlock);
+            var bytes = new List<byte>();
+            bytes.AddRange(PtMessageReceiver.StartBlock);
+            bytes.AddRange(content);
+            bytes.AddRange(PtMessageReceiver.EndBlock);
+            socket.Send(bytes.ToArray());
         }
     }
 }

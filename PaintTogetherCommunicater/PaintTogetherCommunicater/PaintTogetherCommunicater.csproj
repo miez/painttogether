@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PaintTogetherCommunicater.cs" />
     <Compile Include="ServerClientMessageType.cs" />
     <Compile Include="PtMessageXmlSerializer.cs" />
     <Compile Include="PtMessageDecoder.cs" />
