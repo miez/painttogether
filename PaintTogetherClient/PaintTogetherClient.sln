@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintTogetherClient", "PaintTogetherClient\PaintTogetherClient.csproj", "{4BFBCACC-5ACE-452E-85A0-D7ED9E65E643}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintTogetherClient.Test", "PaintTogetherClient.Test\PaintTogetherClient.Test.csproj", "{15252F00-D663-4780-B0F1-CCE85D297941}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintTogetherClient.Messages", "PaintTogetherClient.Messages\PaintTogetherClient.Messages.csproj", "{DC4DF909-8878-40DE-A945-1A60118A704C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintTogetherClient.Contracts", "PaintTogetherClient.Contracts\PaintTogetherClient.Contracts.csproj", "{3CA93597-FC67-4B8F-AAEA-11969D8CD1D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintTogetherClient.Run", "PaintTogetherClient.Run\PaintTogetherClient.Run.csproj", "{4D668C09-2F43-4A6C-A687-D323C0B6D3F2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4BFBCACC-5ACE-452E-85A0-D7ED9E65E643}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BFBCACC-5ACE-452E-85A0-D7ED9E65E643}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BFBCACC-5ACE-452E-85A0-D7ED9E65E643}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BFBCACC-5ACE-452E-85A0-D7ED9E65E643}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15252F00-D663-4780-B0F1-CCE85D297941}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15252F00-D663-4780-B0F1-CCE85D297941}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15252F00-D663-4780-B0F1-CCE85D297941}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15252F00-D663-4780-B0F1-CCE85D297941}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC4DF909-8878-40DE-A945-1A60118A704C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC4DF909-8878-40DE-A945-1A60118A704C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC4DF909-8878-40DE-A945-1A60118A704C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC4DF909-8878-40DE-A945-1A60118A704C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CA93597-FC67-4B8F-AAEA-11969D8CD1D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CA93597-FC67-4B8F-AAEA-11969D8CD1D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CA93597-FC67-4B8F-AAEA-11969D8CD1D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CA93597-FC67-4B8F-AAEA-11969D8CD1D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D668C09-2F43-4A6C-A687-D323C0B6D3F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D668C09-2F43-4A6C-A687-D323C0B6D3F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D668C09-2F43-4A6C-A687-D323C0B6D3F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D668C09-2F43-4A6C-A687-D323C0B6D3F2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
