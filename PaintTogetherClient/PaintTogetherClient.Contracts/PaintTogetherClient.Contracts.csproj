@@ -33,6 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PaintTogetherCommunicater.Messages, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -50,7 +51,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Adapter\IPtServerConnectionManager.cs" />
+    <Compile Include="Adapter\IPtClientAdapterStarter.cs" />
+    <Compile Include="Core\IPtPictureTaker.cs" />
+    <Compile Include="Core\IPtPaintContentManager.cs" />
+    <Compile Include="Core\IPtClientStarter.cs" />
+    <Compile Include="IPtClientPortal.cs" />
+    <Compile Include="IPtClientServerAdapter.cs" />
+    <Compile Include="IPtClientCore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PaintTogetherClient.Messages\PaintTogetherClient.Messages.csproj">
+      <Project>{DC4DF909-8878-40DE-A945-1A60118A704C}</Project>
+      <Name>PaintTogetherClient.Messages</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="lib\PaintTogetherCommunicater.Messages.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

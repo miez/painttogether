@@ -25,44 +25,54 @@ $Id: HostApplicationForm.cs 450 2009-02-23 17:26:54Z NLBERLIN\mblankenstein $
 
 */
 
-using System.Drawing;
+using System;
+using PaintTogetherClient.Messages.Portal;
 
-namespace PaintTogetherClient.Messages.Portal
+namespace PaintTogetherClient.Contracts
 {
     /// <summary>
-    /// Enhält alle Informationen für die Initialisierung des Malbereichs
+    /// GUI für den PaintTogetherClient
     /// </summary>
-    public class InitPortalMessage
+    public interface IPtClientPortal
     {
         /// <summary>
-        /// aktueller Malbereich inkl. Größe (Größe des Bildes)
+        /// Aufforderung den Malbereich in einer Bildatei zu speichern
         /// </summary>
-        public Bitmap PaintContent { get; set; }
+        event Action<TakePictureRequest> OnRequestTakePicture;
 
         /// <summary>
-        /// Alias des Nutzers der den Server gestartet hat
+        /// Information das Anwendung beendet wird
         /// </summary>
-        public string ServerAlias { get; set; }
+        event Action<CloseMessage> OnServerClose;
+        
+        /// <summary>
+        /// Initialisiert die GUI
+        /// </summary>
+        /// <param name="message"></param>
+        void ProcessInitPortalMessage(InitPortalMessage message);
 
         /// <summary>
-        /// Name/IP des Servers, auf dem der PaintTogehterServer läuft
+        /// Übermalt den angegeben Punkt in der Anzeige
         /// </summary>
-        public string ServerName { get; set; }
+        /// <param name="message"></param>
+        void ProcessPaintedMessage(PaintedMessage message);
 
         /// <summary>
-        /// Alias des Anwenders
+        /// Informiert den Anwender über den Verlust der Serververbindung
         /// </summary>
-        public string Alias { get; set; }
+        /// <param name="message"></param>
+        void ProcessServerClosedMessage(ServerClosedMessage message);
 
         /// <summary>
-        /// Malfarbe des Anwenders
+        /// Fügt einen neuen Beteiligten in der GUI-Liste hinzu
         /// </summary>
-        public Color Color { get; set; }
+        /// <param name="message"></param>
+        void ProcessAddAliasMessage(AddAliasMessage message);
 
         /// <summary>
-        /// Port des Servers, der vom PaintTogetherServer für die Verbindungen
-        /// verwendet wird
+        /// Entfernt einen Beteiligten aus der GUI-Liste
         /// </summary>
-        public int ServerPort { get; set; }
+        /// <param name="message"></param>
+        void ProcessRemoveAliasMessage(RemoveAliasMessage message);
     }
 }

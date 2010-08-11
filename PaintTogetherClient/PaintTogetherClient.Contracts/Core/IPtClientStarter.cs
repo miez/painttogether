@@ -25,44 +25,45 @@ $Id: HostApplicationForm.cs 450 2009-02-23 17:26:54Z NLBERLIN\mblankenstein $
 
 */
 
-using System.Drawing;
+using System;
+using PaintTogetherClient.Messages.Adapter;
+using PaintTogetherClient.Messages.Core.ClientStarter;
+using PaintTogetherClient.Messages.Portal;
+using PaintTogetherClient.Messages.Core.PaintContentManager;
 
-namespace PaintTogetherClient.Messages.Portal
+namespace PaintTogetherClient.Contracts.Core
 {
     /// <summary>
-    /// Enhält alle Informationen für die Initialisierung des Malbereichs
+    /// EBC die den Start und die Initialisierung des Clients beauftragt
     /// </summary>
-    public class InitPortalMessage
+    internal interface IPtClientStarter
     {
         /// <summary>
-        /// aktueller Malbereich inkl. Größe (Größe des Bildes)
+        /// Aufforderung das Portal zu initialisieren
         /// </summary>
-        public Bitmap PaintContent { get; set; }
+        event Action<InitPortalMessage> OnInitPortal;
 
         /// <summary>
-        /// Alias des Nutzers der den Server gestartet hat
+        /// Aufforderung eine Verbindung zum Server aufzubauen
         /// </summary>
-        public string ServerAlias { get; set; }
+        event Action<ConnectToServerRequest> OnRequestConnectToServer;
 
         /// <summary>
-        /// Name/IP des Servers, auf dem der PaintTogehterServer läuft
+        /// Aufforderung den Malbereich zu initialisieren
         /// </summary>
-        public string ServerName { get; set; }
+        event Action<InitPaintManagerMessage> OnInitPaintManager;
 
         /// <summary>
-        /// Alias des Anwenders
+        /// Verarbeitet die Information mit dem initialen Malstand
         /// </summary>
-        public string Alias { get; set; }
+        /// <param name="message"></param>
+        void ProcessCurrentPaintContentMessage(CurrentPaintContentMessage message);
 
         /// <summary>
-        /// Malfarbe des Anwenders
+        /// Initialer Auffrag den Client zu Initialisieren und eine Verbindung
+        /// mit dem Server aufzubauen
         /// </summary>
-        public Color Color { get; set; }
-
-        /// <summary>
-        /// Port des Servers, der vom PaintTogetherServer für die Verbindungen
-        /// verwendet wird
-        /// </summary>
-        public int ServerPort { get; set; }
+        /// <param name="request"></param>
+        void ProcessStartClientRequest(StartClientRequest request);
     }
 }

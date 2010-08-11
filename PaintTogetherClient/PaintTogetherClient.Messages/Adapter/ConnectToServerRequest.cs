@@ -25,6 +25,8 @@ $Id: HostApplicationForm.cs 450 2009-02-23 17:26:54Z NLBERLIN\mblankenstein $
 
 */
 
+using System.Drawing;
+
 namespace PaintTogetherClient.Messages.Adapter
 {
     /// <summary>
@@ -42,6 +44,16 @@ namespace PaintTogetherClient.Messages.Adapter
         /// Serverport
         /// </summary>
         public int Port { get; set; }
+
+        /// <summary>
+        /// Alias des Nutzers
+        /// </summary>
+        public string Alias { get; set; }
+
+        /// <summary>
+        /// Malfarbe des Nutzers
+        /// </summary>
+        public Color Color { get; set; }
 
         /// <summary>
         /// Statusmeldung über den Verbindungsaufbau

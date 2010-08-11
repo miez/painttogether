@@ -25,44 +25,27 @@ $Id: HostApplicationForm.cs 450 2009-02-23 17:26:54Z NLBERLIN\mblankenstein $
 
 */
 
-using System.Drawing;
+using System;
+using PaintTogetherClient.Messages.Portal;
+using PaintTogetherClient.Messages.Core.PaintContentManager;
 
-namespace PaintTogetherClient.Messages.Portal
+namespace PaintTogetherClient.Contracts.Core
 {
     /// <summary>
-    /// Enhält alle Informationen für die Initialisierung des Malbereichs
+    /// EBC die von dem aktuellen Malbereich eine
+    /// Bilddatei erzeugt und speichert
     /// </summary>
-    public class InitPortalMessage
+    internal interface IPtPictureTaker
     {
         /// <summary>
-        /// aktueller Malbereich inkl. Größe (Größe des Bildes)
+        /// Erfragt den Malbereich
         /// </summary>
-        public Bitmap PaintContent { get; set; }
+        event Action<GetPaintContentRequest> OnRequestPaintContent;
 
         /// <summary>
-        /// Alias des Nutzers der den Server gestartet hat
+        /// Verarbeitet den Auftrag den aktuellen Malstand in einer Datei zu speichern
         /// </summary>
-        public string ServerAlias { get; set; }
-
-        /// <summary>
-        /// Name/IP des Servers, auf dem der PaintTogehterServer läuft
-        /// </summary>
-        public string ServerName { get; set; }
-
-        /// <summary>
-        /// Alias des Anwenders
-        /// </summary>
-        public string Alias { get; set; }
-
-        /// <summary>
-        /// Malfarbe des Anwenders
-        /// </summary>
-        public Color Color { get; set; }
-
-        /// <summary>
-        /// Port des Servers, der vom PaintTogetherServer für die Verbindungen
-        /// verwendet wird
-        /// </summary>
-        public int ServerPort { get; set; }
+        /// <param name="request"></param>
+        void ProcessTakePictureRequest(TakePictureRequest request);
     }
 }

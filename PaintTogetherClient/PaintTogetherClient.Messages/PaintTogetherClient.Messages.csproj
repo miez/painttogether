@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Adapter\ServerConnectionManager\ConEstablishedMessage.cs" />
+    <Compile Include="Core\ClientStarter\StartClientRequest.cs" />
     <Compile Include="Core\PaintContentManager\GetPaintContentRequest.cs" />
     <Compile Include="Core\PaintContentManager\InitPaintManagerMessage.cs" />
     <Compile Include="Portal\CloseMessage.cs" />

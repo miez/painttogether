@@ -27,42 +27,37 @@ $Id: HostApplicationForm.cs 450 2009-02-23 17:26:54Z NLBERLIN\mblankenstein $
 
 using System.Drawing;
 
-namespace PaintTogetherClient.Messages.Portal
+namespace PaintTogetherClient.Messages.Core.ClientStarter
 {
     /// <summary>
-    /// Enhält alle Informationen für die Initialisierung des Malbereichs
+    /// Aufforderung den Client zu initialisieren und die Serververbindung aufzubauen
     /// </summary>
-    public class InitPortalMessage
+    public class StartClientRequest
     {
         /// <summary>
-        /// aktueller Malbereich inkl. Größe (Größe des Bildes)
+        /// Servername oder IP
         /// </summary>
-        public Bitmap PaintContent { get; set; }
+        public string ServernameOrIp { get; set; }
 
         /// <summary>
-        /// Alias des Nutzers der den Server gestartet hat
-        /// </summary>
-        public string ServerAlias { get; set; }
-
-        /// <summary>
-        /// Name/IP des Servers, auf dem der PaintTogehterServer läuft
-        /// </summary>
-        public string ServerName { get; set; }
-
-        /// <summary>
-        /// Alias des Anwenders
+        /// Alias des Nutzers
         /// </summary>
         public string Alias { get; set; }
 
         /// <summary>
-        /// Malfarbe des Anwenders
+        /// Malfarbe des Nutzers
         /// </summary>
         public Color Color { get; set; }
 
         /// <summary>
-        /// Port des Servers, der vom PaintTogetherServer für die Verbindungen
-        /// verwendet wird
+        /// Serverport
         /// </summary>
-        public int ServerPort { get; set; }
+        public int Port { get; set; }
+
+        /// <summary>
+        /// Statusmeldung über den Verbindungsaufbau
+        /// ! wird dem Nutzer angezeigt !
+        /// </summary>
+        public string Result { get; set; }
     }
 }

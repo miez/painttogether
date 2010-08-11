@@ -25,44 +25,50 @@ $Id: HostApplicationForm.cs 450 2009-02-23 17:26:54Z NLBERLIN\mblankenstein $
 
 */
 
-using System.Drawing;
+using System;
+using PaintTogetherClient.Messages.Adapter;
+using PaintTogetherClient.Messages.Portal;
+using PaintTogetherClient.Messages.Core.PaintContentManager;
 
-namespace PaintTogetherClient.Messages.Portal
+namespace PaintTogetherClient.Contracts.Core
 {
     /// <summary>
-    /// Enhält alle Informationen für die Initialisierung des Malbereichs
+    /// Diese EBC verwaltet den Malbereich im PaintTogetherClient
     /// </summary>
-    public class InitPortalMessage
+    internal interface IPtPaintContentManager
     {
         /// <summary>
-        /// aktueller Malbereich inkl. Größe (Größe des Bildes)
+        /// Information das jemand einen Punkt bemalt hat
         /// </summary>
-        public Bitmap PaintContent { get; set; }
+        event Action<PaintedMessage> OnPainted;
 
         /// <summary>
-        /// Alias des Nutzers der den Server gestartet hat
+        /// Information das Anwender einen Punkt bemalen möchte
         /// </summary>
-        public string ServerAlias { get; set; }
+        event Action<NewPaintMessage> OnNewPaint;
 
         /// <summary>
-        /// Name/IP des Servers, auf dem der PaintTogehterServer läuft
+        /// Bearbeitet die Anfrage des Anwenders, einen Punkt zu bemalen
         /// </summary>
-        public string ServerName { get; set; }
+        /// <param name="message"></param>
+        void ProcessPaintSelfMessage(PaintSelfMessage message);
 
         /// <summary>
-        /// Alias des Anwenders
+        /// Setzt den aktuellen Malinhalt als Resulteigenschaft an die Nachricht
         /// </summary>
-        public string Alias { get; set; }
+        /// <param name="request"></param>
+        void ProcessGetPaintContentRequest(GetPaintContentRequest request);
 
         /// <summary>
-        /// Malfarbe des Anwenders
+        /// Verarbeitet die Information, das ein Beteiligter einen Punkt bemalt hat
         /// </summary>
-        public Color Color { get; set; }
+        /// <param name="message"></param>
+        void ProcessAliasPaintedMessage(AliasPaintedMessage message);
 
         /// <summary>
-        /// Port des Servers, der vom PaintTogetherServer für die Verbindungen
-        /// verwendet wird
+        /// Initialisiert die EBC mit den angegeben Daten
         /// </summary>
-        public int ServerPort { get; set; }
+        /// <param name="message"></param>
+        void ProcessInitPaintMananger(InitPaintManagerMessage message);
     }
 }
