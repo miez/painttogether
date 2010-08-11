@@ -26,13 +26,14 @@ $Id: HostApplicationForm.cs 450 2009-02-23 17:26:54Z NLBERLIN\mblankenstein $
 */
 
 using System;
+using PaintTogetherServer.Contracts;
 using PaintTogetherServer.Contracts.Core;
 using PaintTogetherServer.Messages.Adapter;
 using PaintTogetherServer.Messages.Portal;
 using PaintTogetherServer.Messages.Core;
 using PaintTogetherServer.Core;
 
-namespace PaintTogetherServer.Contracts
+namespace PaintTogetherServer
 {
     /// <summary>
     /// Funktionale Komponente des PaintTogetherServers.
