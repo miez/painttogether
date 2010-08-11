@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="Adapter\PtPortListenerCS\ProcessStartPortListingMessageTest.cs" />
     <Compile Include="Core\PtLoggerCS\LogMessageTest.cs" />
+    <Compile Include="Core\PtServerStarterCS\ProcessStartServerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PtServerClientAdapterCS\IntegrationsTest.cs" />
   </ItemGroup>
