@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Adapter\PtConnectionMananger.cs" />
     <Compile Include="Adapter\PtPortListener.cs" />
+    <Compile Include="PtServerClientAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
