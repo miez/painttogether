@@ -56,6 +56,7 @@
     <Compile Include="Core\PtPlayerListManager.cs" />
     <Compile Include="Core\PtServerStarter.cs" />
     <Compile Include="Core\PtLogger.cs" />
+    <Compile Include="PtServerCore.cs" />
     <Compile Include="PtServerClientAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

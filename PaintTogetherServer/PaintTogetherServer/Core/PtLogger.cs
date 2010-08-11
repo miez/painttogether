@@ -46,6 +46,12 @@ namespace PaintTogetherServer.Core
 
             public void DoAppend(LoggingEvent loggingEvent)
             {
+                // Hier muss der Outpin auf Verwendung geprüft werden
+                // Da es sein kann, das schon während der Verdrahtung der 
+                // In- und Outputpins eine log4net-Nachricht erzeugt wird
+                // Diese darf dann hier nicht zum Fehler führen
+                if (OnSLog == null) return;
+
                 var message = new SLogMessage();
                 message.Message = string.Concat(loggingEvent.LoggerName, ":", loggingEvent.Level, ":", loggingEvent.GetLoggingEventData().Message);
                 OnSLog(message);
