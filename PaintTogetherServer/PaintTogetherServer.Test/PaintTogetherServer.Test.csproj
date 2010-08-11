@@ -53,6 +53,8 @@
   <ItemGroup>
     <Compile Include="Adapter\PtPortListenerCS\ProcessStartPortListingMessageTest.cs" />
     <Compile Include="Core\PtLoggerCS\LogMessageTest.cs" />
+    <Compile Include="Core\PtPaintFieldManagerCS\ProcessPaintMessageTest.cs" />
+    <Compile Include="Core\PtPaintFieldManagerCS\ProcessInitMessageTest.cs" />
     <Compile Include="Core\PtPlayerListManagerCS\ProcessGetCurPainterTest.cs" />
     <Compile Include="Core\PtPlayerListManagerCS\ProcessClientDisconnectedTest.cs" />
     <Compile Include="Core\PtPlayerListManagerCS\ProcessNewClientTest.cs" />

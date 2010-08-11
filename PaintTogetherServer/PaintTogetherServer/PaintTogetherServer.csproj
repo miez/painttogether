@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Adapter\PtConnectionMananger.cs" />
     <Compile Include="Adapter\PtPortListener.cs" />
+    <Compile Include="Core\PtPaintFieldManager.cs" />
     <Compile Include="Core\PtPlayerListManager.cs" />
     <Compile Include="Core\PtServerStarter.cs" />
     <Compile Include="Core\PtLogger.cs" />
