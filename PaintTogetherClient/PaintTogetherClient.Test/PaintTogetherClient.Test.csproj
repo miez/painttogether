@@ -50,6 +50,7 @@
     <Compile Include="Core\PtClientStarterCS\ProcessPaintContentTest.cs" />
     <Compile Include="Core\PtClientStarterCS\ProcessConnectedTest.cs" />
     <Compile Include="Core\PtClientStarterCS\ProcessStartClientTest.cs" />
+    <Compile Include="Core\PtPictureTakerCS\ProcessTakePictureTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
