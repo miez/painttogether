@@ -34,6 +34,7 @@ using System.Net.Sockets;
 using log4net;
 using PaintTogetherCommunicater.Messages.ClientServerCommunication.Client;
 using PaintTogetherCommunicater.Messages.ClientServerCommunication.Server;
+using System.Threading;
 
 namespace PaintTogetherClient.Adapter
 {
@@ -67,6 +68,12 @@ namespace PaintTogetherClient.Adapter
         /// Die Server-Socket-Verbindung
         /// </summary>
         private Socket _serverConnection;
+
+        /// <summary>
+        /// Wird gesetzt, wenn die Verbindung zum Server unterbrochen wird
+        /// und bestimmt, das der Output "ServerConLost" unterdrückt wird
+        /// </summary>
+        private bool _ignoreServerConLost;
 
         /// <summary>
         /// Gibt an, ob eine Verbindung zu dem Server besteht
@@ -134,6 +141,10 @@ namespace PaintTogetherClient.Adapter
         {
             if (Connected)
             {
+                OnStopReceiving(new StopReceivingMessage { SoketConnection = _serverConnection });
+
+                _ignoreServerConLost = true;
+
                 _serverConnection.Disconnect(false);
                 _serverConnection.Close();
 
@@ -143,6 +154,8 @@ namespace PaintTogetherClient.Adapter
 
         public void ProcessConLostMessage(ConLostMessage message)
         {
+            if (_ignoreServerConLost) return;
+
             OnServerConnectionLost(new ServerConnectionLostMessage());
 
             // Überwachung muss nicht mehr gestoppt werden/ Bei conLost wird die
