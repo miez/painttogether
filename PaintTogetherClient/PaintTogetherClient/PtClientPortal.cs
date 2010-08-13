@@ -44,11 +44,23 @@ namespace PaintTogetherClient
         /// </summary>
         private readonly SynchronizationContext _synchContext;
 
+        /// <summary>
+        /// Breite der beiden Ränder (rechts, links) für spätere Größenbestimmung
+        /// </summary>
+        private readonly int _winBorderWidth;
+
+        /// <summary>
+        /// Höhe der beiden Ränder (oben, unten) für spätere Größenbestimmung
+        /// </summary>
+        private readonly int _winBorderHeight;
+
         public PtClientPortal()
         {
             InitializeComponent();
 
             _synchContext = SynchronizationContext.Current;
+            _winBorderWidth = Width - pnContentPanel.Width - pnRight.Width;
+            _winBorderHeight = Height - pnContentPanel.Height;
         }
 
         /// <summary>
@@ -173,6 +185,16 @@ namespace PaintTogetherClient
         {
             if (e.Button == MouseButtons.Left)
             {
+                if (e.X >= pnContentPanel.Width || e.X < 0)
+                { // Wenn maus gedrückt bleibt, dann bekommt man hier auch Events ausserhalb des Panels
+                    return;
+                }
+
+                if (e.Y >= pnContentPanel.Height || e.Y < 0)
+                { // Wenn maus gedrückt bleibt, dann bekommt man hier auch Events ausserhalb des Panels
+                    return;
+                }
+
                 PaintPoint(Color.Red, new Point(e.X, e.Y));
 
                 // Malanfrage in extra Thread damit GUI nicht hackt
@@ -213,7 +235,7 @@ namespace PaintTogetherClient
 
         private void ResizeForm()
         {
-            var size = new Size(pnContentPanel.Width + pnRight.Width, pnContentPanel.Height);
+            var size = new Size(pnContentPanel.Width + pnRight.Width + _winBorderWidth, pnContentPanel.Height + _winBorderHeight);
             Size = size;
             MinimumSize = size;
             MaximumSize = size;
