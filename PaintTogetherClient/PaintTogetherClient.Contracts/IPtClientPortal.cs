@@ -43,7 +43,12 @@ namespace PaintTogetherClient.Contracts
         /// <summary>
         /// Information das Anwendung beendet wird
         /// </summary>
-        event Action<CloseMessage> OnServerClose;
+        event Action<CloseMessage> OnClientClose;
+
+        /// <summary>
+        /// Anwender hat einen Punkt bemalt
+        /// </summary>
+        event Action<PaintSelfMessage> OnPaintSelf;
         
         /// <summary>
         /// Initialisiert die GUI

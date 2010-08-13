@@ -40,6 +40,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -55,6 +56,15 @@
     <Compile Include="Core\PtPaintContentManager.cs" />
     <Compile Include="Core\PtPictureTaker.cs" />
     <Compile Include="Core\PtClientStarter.cs" />
+    <Compile Include="Portal\PaintContentPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PtClientPortal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PtClientPortal.Designer.cs">
+      <DependentUpon>PtClientPortal.cs</DependentUpon>
+    </Compile>
     <Compile Include="PtClientServerAdapter.cs" />
     <Compile Include="PtClientCore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -74,6 +84,11 @@
       <Project>{DC4DF909-8878-40DE-A945-1A60118A704C}</Project>
       <Name>PaintTogetherClient.Messages</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="PtClientPortal.resx">
+      <DependentUpon>PtClientPortal.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
