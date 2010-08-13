@@ -70,6 +70,22 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Client.cs" />
+    <Compile Include="StartClientParams.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PaintTogetherClient.Contracts\PaintTogetherClient.Contracts.csproj">
+      <Project>{3CA93597-FC67-4B8F-AAEA-11969D8CD1D0}</Project>
+      <Name>PaintTogetherClient.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PaintTogetherClient.Messages\PaintTogetherClient.Messages.csproj">
+      <Project>{DC4DF909-8878-40DE-A945-1A60118A704C}</Project>
+      <Name>PaintTogetherClient.Messages</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PaintTogetherClient\PaintTogetherClient.csproj">
+      <Project>{4BFBCACC-5ACE-452E-85A0-D7ED9E65E643}</Project>
+      <Name>PaintTogetherClient</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

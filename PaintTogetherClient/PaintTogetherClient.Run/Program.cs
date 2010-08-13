@@ -27,22 +27,60 @@ $Id: HostApplicationForm.cs 450 2009-02-23 17:26:54Z NLBERLIN\mblankenstein $
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 
 namespace PaintTogetherClient.Run
 {
-    static class Program
+    class Program
     {
-        /// <summary>
-        /// Der Haupteinstiegspunkt für die Anwendung.
-        /// </summary>
         [STAThread]
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            // TODO Hier C Application.Run(new Form1());
+
+            try
+            {
+                var argList = new List<string>();
+                argList.AddRange(args);
+
+                if (argList.Contains("-help") || argList.Contains("-h"))
+                {
+                    ShowHelp();
+                    return;
+                }
+
+                var startParams = StartClientParams.ParseArgs(argList);
+
+                if (!startParams.Valid)
+                {
+                    MessageBox.Show("Ungültige Startparameter");
+                    ShowHelp();
+                    return;
+                }
+
+                var client = new Client();
+                client.Start(startParams);
+
+                Application.Run(client.Portal as PtClientPortal);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Fehler beim Start des Clients: " + e.Message);
+            }
+        }
+
+        private static void ShowHelp()
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine("Startparameterbeschreibung des PaintTogetherClient");
+            sb.AppendLine(string.Concat("  ", StartClientParams.AliasParamName, " (pflicht) Ihr Alias für die anderen Beteiligten"));
+            sb.AppendLine(string.Concat("  ", StartClientParams.ColorParamName, " (pflicht) Bekannter Farbenname, Ihre Malfarbe"));
+            sb.AppendLine(string.Concat("  ", StartClientParams.PortParamName, " (optional) Port des Servers - Standard ist '", StartClientParams.DefaultPort, "'"));
+            sb.AppendLine(string.Concat("  ", StartClientParams.ServerParamName, " (optional) Name/IP des Servers - Standard ist '", StartClientParams.DefaultServer, "'"));
+
+            MessageBox.Show(sb.ToString(), "Hilfe", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

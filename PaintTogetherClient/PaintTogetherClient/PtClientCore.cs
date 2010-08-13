@@ -28,6 +28,7 @@ $Id: HostApplicationForm.cs 450 2009-02-23 17:26:54Z NLBERLIN\mblankenstein $
 using System;
 using PaintTogetherClient.Contracts;
 using PaintTogetherClient.Messages.Adapter;
+using PaintTogetherClient.Messages.Core.ClientStarter;
 using PaintTogetherClient.Messages.Portal;
 using PaintTogetherClient.Contracts.Core;
 using PaintTogetherClient.Core;
@@ -126,6 +127,11 @@ namespace PaintTogetherClient
         public void ProcessAliasPaintedMessage(AliasPaintedMessage message)
         {
             _paintContentManager.ProcessAliasPaintedMessage(message);
+        }
+
+        public void ProcessStartClientRequest(StartClientRequest request)
+        {
+            _clientStarter.ProcessStartClientRequest(request);
         }
 
         // Bei den folgenden 4 Pins ist im Entwurf (ClientCore als Platine) zu sehen,

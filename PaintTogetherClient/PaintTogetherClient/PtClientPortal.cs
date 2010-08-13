@@ -74,12 +74,8 @@ namespace PaintTogetherClient
 
         public void ProcessInitPortalMessage(InitPortalMessage message)
         {
-            // titel der Anwendung setzen
-            Text = string.Concat("PaintTogether - Malerei von ", message.ServerAlias, " auf ", message.ServerName, ":", message.ServerPort);
-            Alias = message.Alias;
-            ClientColor = message.Color;
-
-            pnContentPanel.InitPaintContent(message.PaintContent);
+            // Malbereich in dem Hauptthread initialisieren
+            _synchContext.Post(dummy => InitContent(message), message);
 
             // Jetzt erst die GUI sichtbar machen
             Visible = true;
@@ -204,6 +200,16 @@ namespace PaintTogetherClient
         private void PaintPoint(Color color, Point point)
         {
             pnContentPanel.PaintPoint(point, color);
+        }
+
+        private void InitContent(InitPortalMessage message)
+        {
+            // titel der Anwendung setzen
+            Text = string.Concat("PaintTogether - Malerei von ", message.ServerAlias, " auf ", message.ServerName, ":", message.ServerPort);
+            Alias = message.Alias;
+            ClientColor = message.Color;
+
+            pnContentPanel.InitPaintContent(message.PaintContent);
         }
     }
 }

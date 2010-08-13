@@ -27,6 +27,7 @@ $Id: HostApplicationForm.cs 450 2009-02-23 17:26:54Z NLBERLIN\mblankenstein $
 
 using System;
 using PaintTogetherClient.Messages.Adapter;
+using PaintTogetherClient.Messages.Core.ClientStarter;
 using PaintTogetherClient.Messages.Portal;
 
 namespace PaintTogetherClient.Contracts
@@ -113,6 +114,12 @@ namespace PaintTogetherClient.Contracts
         /// </summary>
         /// <param name="message"></param>
         void ProcessAliasPaintedMessage(AliasPaintedMessage message);
+
+        /// <summary>
+        /// Aufforderung den Client zu starten
+        /// </summary>
+        /// <param name="request"></param>
+        void ProcessStartClientRequest(StartClientRequest request);
 
         // Bei den folgenden 4 Pins ist im Entwurf (ClientCore als Platine) zu sehen,
         // dass Sie einfach nur die Nachricht von einen eigenen
