@@ -49,6 +49,11 @@ namespace PaintTogetherClient.Contracts.Adapter
         event Action<AliasPaintedMessage> OnAliasPainted;
 
         /// <summary>
+        /// Information über Alias des Nutzers, der den Server gestartet hat
+        /// </summary>
+        event Action<ConnectedMessage> OnConnected;
+
+        /// <summary>
         /// Informiert über den Verlust der Serververbindung
         /// </summary>
         event Action<ServerConnectionLostMessage> OnServerConnectionLost;

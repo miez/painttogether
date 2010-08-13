@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Adapter\ConnectedMessage.cs" />
     <Compile Include="Adapter\ServerConnectionManager\ConEstablishedMessage.cs" />
     <Compile Include="Core\ClientStarter\StartClientRequest.cs" />
     <Compile Include="Core\PaintContentManager\GetPaintContentRequest.cs" />

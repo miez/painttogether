@@ -91,6 +91,12 @@ namespace PaintTogetherClient.Contracts
         void ProcessPaintSelfMessage(PaintSelfMessage message);
 
         /// <summary>
+        /// Verarbeitet die Information über den Alias des Serverstarters
+        /// </summary>
+        /// <param name="message"></param>
+        void ProcessConnectedMessage(ConnectedMessage message);
+
+        /// <summary>
         /// Verarbeitet den Auftrag den aktuellen Malstand in einer Datei zu speichern
         /// </summary>
         /// <param name="request"></param>

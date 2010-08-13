@@ -58,6 +58,11 @@ namespace PaintTogetherClient.Contracts
         event Action<NewAliasMessage> OnNewAlias;
 
         /// <summary>
+        /// Information über Alias des Nutzers, der den Server gestartet hat
+        /// </summary>
+        event Action<ConnectedMessage> OnConnected;
+
+        /// <summary>
         /// Informiert über das Verlassen eines bisher aktiven Beteiligten
         /// </summary>
         event Action<AliasDisconnectedMessage> OnAliasDisconnected;

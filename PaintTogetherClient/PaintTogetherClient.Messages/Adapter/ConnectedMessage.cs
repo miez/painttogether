@@ -25,18 +25,17 @@ $Id: HostApplicationForm.cs 450 2009-02-23 17:26:54Z NLBERLIN\mblankenstein $
 
 */
 
-using System.Drawing;
-
-namespace PaintTogetherClient.Messages.Core.PaintContentManager
+namespace PaintTogetherClient.Messages.Adapter
 {
     /// <summary>
-    /// Initiale Nachricht für die Malbereichsverwaltung
+    /// Initiale Nachricht vom Server mit Alias des Nutzers, der den Server
+    /// gestartet hat
     /// </summary>
-    internal class InitPaintManagerMessage
+    public class ConnectedMessage
     {
         /// <summary>
-        /// Der initiale Malbereich
+        /// Alias des Serverstarters
         /// </summary>
-        public Bitmap PaintContent { get; set; }
+        public string Alias { get; set; }
     }
 }

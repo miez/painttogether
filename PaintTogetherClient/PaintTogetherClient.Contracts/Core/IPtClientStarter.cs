@@ -65,5 +65,11 @@ namespace PaintTogetherClient.Contracts.Core
         /// </summary>
         /// <param name="request"></param>
         void ProcessStartClientRequest(StartClientRequest request);
+
+        /// <summary>
+        /// Verarbeitet die Information über den Alias des Serverstarters
+        /// </summary>
+        /// <param name="message"></param>
+        void ProcessConnectedMessage(ConnectedMessage message);
     }
 }
