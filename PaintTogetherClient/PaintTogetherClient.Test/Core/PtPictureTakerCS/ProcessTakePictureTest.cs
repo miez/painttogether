@@ -47,13 +47,13 @@ namespace PaintTogetherClient.Test.Core.PtPictureTakerCS
 
             pTaker.OnRequestPaintContent += request => request.Result = toSaveImage;
 
-            File.Delete("nicht_da.bmp");
+            File.Delete("nicht_da.png");
 
             var tPRequest = new TakePictureRequest();
-            tPRequest.Filename = "nicht_da.bmp";
+            tPRequest.Filename = "nicht_da.png";
             pTaker.ProcessTakePictureRequest(tPRequest);
 
-            var readedImage = Image.FromFile("nicht_da.bmp") as Bitmap;
+            var readedImage = Image.FromFile("nicht_da.png") as Bitmap;
 
             Assert.That(readedImage.Height, Is.EqualTo(toSaveImage.Height));
             Assert.That(readedImage.Height, Is.EqualTo(toSaveImage.Width));

@@ -157,7 +157,7 @@ namespace PaintTogetherClient
         {
             var saveDlg = new SaveFileDialog();
             saveDlg.AddExtension = true;
-            saveDlg.Filter = "Bitmaps|*.bmp";
+            saveDlg.Filter = "PaintTogether-Bild|*.png";
             saveDlg.OverwritePrompt = true;
 
             if (saveDlg.ShowDialog(this) == DialogResult.OK)

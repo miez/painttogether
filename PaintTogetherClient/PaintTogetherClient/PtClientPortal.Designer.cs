@@ -112,6 +112,7 @@ namespace PaintTogetherClient
             this.lstViewPainter.Size = new System.Drawing.Size(139, 247);
             this.lstViewPainter.TabIndex = 1;
             this.lstViewPainter.UseCompatibleStateImageBehavior = false;
+            this.lstViewPainter.View = System.Windows.Forms.View.List;
             // 
             // lbPainter
             // 
