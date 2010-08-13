@@ -116,7 +116,6 @@ namespace PaintTogetherCommunicater
             {
                 if (!socket.Connected)
                 {
-                    OnConLost(new ConLostMessage { DisconnectedSoketConnection = socket });
                     Log.Info("Verbindung zu einer überwachten SocketVerbinung wurde getrennt");
                 }
                 else
@@ -139,6 +138,7 @@ namespace PaintTogetherCommunicater
             {
                 var allContent = new List<byte>();
                 var hasStartBlock = false;
+                var emptyMessageCount = 0;
 
                 do
                 {
@@ -148,6 +148,19 @@ namespace PaintTogetherCommunicater
                     var receiveCount = socket.Receive(buffer);
                     var content = new byte[receiveCount];
                     Array.Copy(buffer, content, receiveCount);
+
+                    if (content.Length == 0)
+                    {
+                        emptyMessageCount++;
+                        if (emptyMessageCount >= 10)
+                        {
+                            Log.Info("Die überwachte Verbindung sendet nur noch leere Nachrichten (Verbindung wurde Clientseitig geschlossen). Überwachung wird beendet");
+                            ProcessStopReceiving(new StopReceivingMessage { SoketConnection = socket });
+                            return;
+                        }
+                        continue;
+                    }
+                    emptyMessageCount = 0;
 
                     if (!hasStartBlock)
                     {
@@ -296,6 +309,7 @@ namespace PaintTogetherCommunicater
             if (_watchedSockets.Contains(message.SoketConnection))
             {
                 _watchedSockets.Remove(message.SoketConnection);
+                OnConLost(new ConLostMessage { DisconnectedSoketConnection = message.SoketConnection });
             }
             Log.Debug("Überwachung eienes Sockets erfolgreich beendet");
         }
