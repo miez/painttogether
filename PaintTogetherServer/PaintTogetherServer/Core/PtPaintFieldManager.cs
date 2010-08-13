@@ -69,6 +69,15 @@ namespace PaintTogetherServer.Core
         {
             Log.DebugFormat("Malbereich wird mit einer Größe von 'W={0}:H={1}' initialisiert", message.Width, message.Height);
             _paintContent = new Bitmap(message.Width, message.Height);
+
+            // Content weiß bemalen
+            for (var xPos = 0; xPos < _paintContent.Width; xPos++)
+            {
+                for (var yPos = 0; yPos < _paintContent.Height; yPos++)
+                {
+                    _paintContent.SetPixel(xPos, yPos, Color.White);
+                }
+            }
         }
 
         /// <summary>
