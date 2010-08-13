@@ -195,7 +195,7 @@ namespace PaintTogetherClient
                     return;
                 }
 
-                PaintPoint(Color.Red, new Point(e.X, e.Y));
+                PaintPoint(ClientColor, new Point(e.X, e.Y));
 
                 // Malanfrage in extra Thread damit GUI nicht hackt
                 var thread = new Thread(SendOnPaint);
