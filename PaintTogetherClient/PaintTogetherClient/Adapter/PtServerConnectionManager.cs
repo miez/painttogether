@@ -141,9 +141,9 @@ namespace PaintTogetherClient.Adapter
         {
             if (Connected)
             {
-                OnStopReceiving(new StopReceivingMessage { SoketConnection = _serverConnection });
-
                 _ignoreServerConLost = true;
+
+                OnStopReceiving(new StopReceivingMessage { SoketConnection = _serverConnection });
 
                 _serverConnection.Disconnect(false);
                 _serverConnection.Close();
