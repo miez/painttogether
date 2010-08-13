@@ -142,8 +142,12 @@ namespace PaintTogetherCommunicater
 
                 do
                 {
-                    var content = new byte[128];
-                    socket.Receive(content);
+                    var buffer = new byte[32000]; // 32KB-Blöcke
+
+                    // Ganz wichtig, nur die Bytes verwenden, die bei Receive als Datenbytes angegeben wurden!
+                    var receiveCount = socket.Receive(buffer);
+                    var content = new byte[receiveCount];
+                    Array.Copy(buffer, content, receiveCount);
 
                     if (!hasStartBlock)
                     {
@@ -184,7 +188,8 @@ namespace PaintTogetherCommunicater
                 var readingResult = ReadContent(toReadContent);
 
                 if (readingResult.Value != -1)
-                {   // Hat toReadContent noch eine Nachricht beinhaltet, so über
+                {
+                    // Hat toReadContent noch eine Nachricht beinhaltet, so über
                     // den Empfang der Nachricht informieren (vorher dekodieren)
                     var request = new DecodeRequest { Bytes = readingResult.Key };
                     OnRequestDecode(request);

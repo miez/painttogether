@@ -78,6 +78,22 @@ namespace PaintTogetherCommunicater.Test.PaintTogetherCommunicaterCS
             Assert.That(receivedMessage.Color, Is.EqualTo(toSendMessage.Color));
         }
 
+        [Test]
+        public void Malbereich_senden()
+        {
+            var toSendMessage = new PaintContentScm();
+            toSendMessage.PaintContent = new Bitmap(750, 350);
+            PaintContentScm receivedMessage = null;
+
+            _communicater.OnNewMessageReceived +=
+                message => receivedMessage = message.Message as PaintContentScm;
+
+            _communicater.ProcessSendMessage(new SendMessageMessage { SoketConnection = _senderSocket, Message = toSendMessage });
+
+            Thread.Sleep(5000); // Senden und Empfangen dauert einen kurzen Moment
+            Assert.That(receivedMessage.PaintContent.Size, Is.EqualTo(toSendMessage.PaintContent.Size));
+        }
+
         [TearDown]
         public void TearDown()
         {
