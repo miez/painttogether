@@ -73,14 +73,18 @@ namespace PaintTogetherClient.Core
         /// <param name="message"></param>
         public void ProcessPaintSelfMessage(PaintSelfMessage message)
         {
+
             Log.DebugFormat("Nutzer möchte Punkt '{0}:{1}' übermalen", message.Point.X, message.Point.Y);
 
-            if (_paintContent.GetPixel(message.Point.X, message.Point.Y) == message.Color)
+            lock (_paintContent)
             {
-                Log.DebugFormat("Punkt '{0}:{1}' hat schon die richtige Farbe", message.Point.X, message.Point.Y);
+                if (_paintContent.GetPixel(message.Point.X, message.Point.Y) == message.Color)
+                {
+                    Log.DebugFormat("Punkt '{0}:{1}' hat schon die richtige Farbe", message.Point.X, message.Point.Y);
 
-                // Punkt hat schon die gewünschte Farbe
-                return;
+                    // Punkt hat schon die gewünschte Farbe
+                    return;
+                }
             }
 
             // Bemalung für alle anderen Beteiligten über den Server bauftragen
@@ -90,9 +94,12 @@ namespace PaintTogetherClient.Core
                        Point = message.Point
                    });
 
-            // Trotzdem schon die Bemalung am Client "vornehmen", auch wenn Serverbestätigung 
-            // noch kommen wird
-            _paintContent.SetPixel(message.Point.X, message.Point.Y, message.Color);
+            lock (_paintContent)
+            {
+                // Trotzdem schon die Bemalung am Client "vornehmen", auch wenn Serverbestätigung 
+                // noch kommen wird
+                _paintContent.SetPixel(message.Point.X, message.Point.Y, message.Color);
+            }
 
             Log.InfoFormat("Malnachfrage für Puntk '{0}:{1}' an Server gestellt", message.Point.X, message.Point.Y);
         }
@@ -122,7 +129,10 @@ namespace PaintTogetherClient.Core
                 Point = message.Point
             });
 
-            _paintContent.SetPixel(message.Point.X, message.Point.Y, message.Color);
+            lock (_paintContent)
+            {
+                _paintContent.SetPixel(message.Point.X, message.Point.Y, message.Color);
+            }
 
             Log.InfoFormat("Bemalung durch Beteiligten von Punkt '{0}:{1}' wurde übernommen", message.Point.X, message.Point.Y);
 
