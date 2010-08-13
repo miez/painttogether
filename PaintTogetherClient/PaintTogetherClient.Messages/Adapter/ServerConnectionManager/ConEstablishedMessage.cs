@@ -25,6 +25,7 @@ $Id: HostApplicationForm.cs 450 2009-02-23 17:26:54Z NLBERLIN\mblankenstein $
 
 */
 
+using System.Drawing;
 using System.Net.Sockets;
 
 namespace PaintTogetherClient.Messages.Adapter.ServerConnectionManager
@@ -38,5 +39,15 @@ namespace PaintTogetherClient.Messages.Adapter.ServerConnectionManager
         /// Die ServerSocket-Verbindung
         /// </summary>
         public Socket Socket{ get; set; }
+
+        /// <summary>
+        /// Alias des Clientnutzers
+        /// </summary>
+        public string Alias { get; set; }
+
+        /// <summary>
+        /// Malfarbe des Clientnutzers
+        /// </summary>
+        public Color Color { get; set; }
     }
 }

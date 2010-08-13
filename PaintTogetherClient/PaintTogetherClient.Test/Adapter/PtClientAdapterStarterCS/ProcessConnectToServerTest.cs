@@ -26,14 +26,9 @@ $Id: HostApplicationForm.cs 450 2009-02-23 17:26:54Z NLBERLIN\mblankenstein $
 
 */
 
-using System.Net;
-using System.Net.Sockets;
+using System.Drawing;
 using NUnit.Framework;
 using PaintTogetherClient.Messages.Adapter;
-using PaintTogetherClient.Core;
-using PaintTogetherClient.Contracts.Core;
-using System;
-using PaintTogetherClient.Messages.Core.ClientStarter;
 using PaintTogetherServer;
 using PaintTogetherServer.Contracts;
 using PaintTogetherServer.Messages.Adapter;
@@ -60,11 +55,20 @@ namespace PaintTogetherClient.Test.Adapter.PtClientAdapterStarterCS
             clientStarter.OnConEstablished += message => conEstMessage = message;
 
             // Verbindung aufbauen
-            var startRequest = new ConnectToServerRequest { ServernameOrIp = "localhost", Port = 34567 };
+            var startRequest = new ConnectToServerRequest
+            {
+                ServernameOrIp = "localhost",
+                Port = 34567,
+                Alias = "Berta",
+                Color = Color.FromArgb(4, 5, 6)
+            };
+
             clientStarter.ProcessConnectToServerRequest(startRequest);
 
             // Jetzt gucken, ob wir eine Socketverbindung zum Server hergestellt haben
             Assert.That(conEstMessage.Socket.Connected, Is.True);
+            Assert.That(conEstMessage.Alias, Is.EqualTo("Berta"));
+            Assert.That(conEstMessage.Color, Is.EqualTo(Color.FromArgb(4, 5, 6)));
             Assert.That(startRequest.Result.ToUpper(), Contains.Substring("ERFOLG"));
         }
 

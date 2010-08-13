@@ -83,7 +83,13 @@ namespace PaintTogetherClient.Adapter
                 return;
             }
 
-            OnConEstablished(new ConEstablishedMessage { Socket = socket });
+            OnConEstablished(new ConEstablishedMessage
+                 {
+                     Socket = socket,
+                     Alias = request.Alias,
+                     Color = request.Color
+                 });
+
             request.Result = "Verbindungsaufbau erfolgreich";
             Log.InfoFormat("Verbindungsaufbau zu dem Server '{0}:{1}' war erfolgreich", request.ServernameOrIp, request.Port);
         }
