@@ -33,9 +33,18 @@
   <ItemGroup>
     <Reference Include="log4net, Version=1.2.9.0, Culture=neutral, PublicKeyToken=b32731d11ce58905" />
     <Reference Include="nunit.framework, Version=2.5.3.9345, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
-    <Reference Include="PaintTogetherCommunicater, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
-    <Reference Include="PaintTogetherCommunicater.Contracts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
-    <Reference Include="PaintTogetherCommunicater.Messages, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="PaintTogetherCommunicater, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\PaintTogetherServer\lib\PaintTogetherCommunicater.dll</HintPath>
+    </Reference>
+    <Reference Include="PaintTogetherCommunicater.Contracts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\PaintTogetherServer\lib\PaintTogetherCommunicater.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="PaintTogetherCommunicater.Messages, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\PaintTogetherServer\lib\PaintTogetherCommunicater.Messages.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -65,9 +74,6 @@
   <ItemGroup>
     <Content Include="lib\log4net.dll" />
     <Content Include="lib\nunit.framework.dll" />
-    <Content Include="lib\PaintTogetherCommunicater.Contracts.dll" />
-    <Content Include="lib\PaintTogetherCommunicater.dll" />
-    <Content Include="lib\PaintTogetherCommunicater.Messages.dll" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PaintTogetherServer.Contracts\PaintTogetherServer.Contracts.csproj">
