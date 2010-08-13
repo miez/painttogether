@@ -53,6 +53,7 @@
     <Compile Include="Core\PtPaintContentManager.cs" />
     <Compile Include="Core\PtPictureTaker.cs" />
     <Compile Include="Core\PtClientStarter.cs" />
+    <Compile Include="PtClientCore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

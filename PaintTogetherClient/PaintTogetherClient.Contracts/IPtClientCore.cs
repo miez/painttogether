@@ -79,7 +79,7 @@ namespace PaintTogetherClient.Contracts
         /// <summary>
         /// Aufforderung das die Verbindung zum Server beendet werden soll
         /// </summary>
-        event Action<CloseMessage> OnCloseConnection;
+        event Action<CloseConnectionMessage> OnCloseConnection;
         #endregion
         #endregion
 
