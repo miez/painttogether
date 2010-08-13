@@ -29,6 +29,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
+using log4net.Config;
+using log4net.Appender;
 
 namespace PaintTogetherClient.Run
 {
@@ -40,8 +42,16 @@ namespace PaintTogetherClient.Run
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            Client client = null;
             try
             {
+                //var fileAppender = new FileAppender();
+                //fileAppender.AppendToFile = false;
+                //fileAppender.File = "client.log";
+                //fileAppender.
+
+                //BasicConfigurator.Configure(fileAppender);
+
                 var argList = new List<string>();
                 argList.AddRange(args);
 
@@ -60,15 +70,16 @@ namespace PaintTogetherClient.Run
                     return;
                 }
 
-                var client = new Client();
+                client = new Client();
                 client.Start(startParams);
-
-                Application.Run(client.Portal as PtClientPortal);
             }
             catch (Exception e)
             {
                 MessageBox.Show("Fehler beim Start des Clients: " + e.Message);
+                return;
             }
+
+            Application.Run(client.Portal as PtClientPortal);
         }
 
         private static void ShowHelp()

@@ -42,16 +42,13 @@ namespace PaintTogetherClient
         /// Daten einfach in den Hauptthread übergeben werden können ohne
         /// explizit ein Invoke aufrufen zu müssen
         /// </summary>
-        private readonly SynchronizationContext _synchContext = SynchronizationContext.Current;
+        private readonly SynchronizationContext _synchContext;
 
         public PtClientPortal()
         {
             InitializeComponent();
 
-            if (!DesignMode)
-            {
-                Visible = false; // erst sichtbar machen, wenn die Initialisierung erfolgreich war
-            }
+            _synchContext = SynchronizationContext.Current;
         }
 
         /// <summary>
@@ -76,9 +73,6 @@ namespace PaintTogetherClient
         {
             // Malbereich in dem Hauptthread initialisieren
             _synchContext.Post(dummy => InitContent(message), message);
-
-            // Jetzt erst die GUI sichtbar machen
-            Visible = true;
         }
 
         public void ProcessPaintedMessage(PaintedMessage message)
@@ -210,6 +204,19 @@ namespace PaintTogetherClient
             ClientColor = message.Color;
 
             pnContentPanel.InitPaintContent(message.PaintContent);
+        }
+
+        private void pnContentPanel_SizeChanged(object sender, EventArgs e)
+        {
+            ResizeForm();
+        }
+
+        private void ResizeForm()
+        {
+            var size = new Size(pnContentPanel.Width + pnRight.Width, pnContentPanel.Height);
+            Size = size;
+            MinimumSize = size;
+            MaximumSize = size;
         }
     }
 }

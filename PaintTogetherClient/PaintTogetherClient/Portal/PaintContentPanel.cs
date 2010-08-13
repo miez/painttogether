@@ -62,7 +62,7 @@ namespace PaintTogetherClient.Portal
             MaximumSize = bitmap.Size;
 
             // Kopieren, verhindert das Bild von außen geändert wird
-            _paintContent = bitmap.Clone() as Bitmap;
+            _paintContent = new Bitmap(bitmap);
         }
 
         internal void PaintPoint(Point point, Color color)

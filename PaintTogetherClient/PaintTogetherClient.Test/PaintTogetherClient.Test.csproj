@@ -32,9 +32,18 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework, Version=2.5.3.9345, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
-    <Reference Include="PaintTogetherCommunicater, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
-    <Reference Include="PaintTogetherCommunicater.Contracts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
-    <Reference Include="PaintTogetherCommunicater.Messages, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="PaintTogetherCommunicater, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\PaintTogetherClient\lib\PaintTogetherCommunicater.dll</HintPath>
+    </Reference>
+    <Reference Include="PaintTogetherCommunicater.Contracts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\PaintTogetherClient\lib\PaintTogetherCommunicater.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="PaintTogetherCommunicater.Messages, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\PaintTogetherClient\lib\PaintTogetherCommunicater.Messages.dll</HintPath>
+    </Reference>
     <Reference Include="PaintTogetherServer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="PaintTogetherServer.Contracts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="PaintTogetherServer.Messages, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
@@ -65,9 +74,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="lib\nunit.framework.dll" />
-    <Content Include="lib\PaintTogetherCommunicater.Contracts.dll" />
-    <Content Include="lib\PaintTogetherCommunicater.dll" />
-    <Content Include="lib\PaintTogetherCommunicater.Messages.dll" />
     <Content Include="lib\PaintTogetherServer.Contracts.dll" />
     <Content Include="lib\PaintTogetherServer.dll" />
     <Content Include="lib\PaintTogetherServer.Messages.dll" />

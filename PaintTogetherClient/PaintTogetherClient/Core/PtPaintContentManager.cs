@@ -104,7 +104,7 @@ namespace PaintTogetherClient.Core
         public void ProcessGetPaintContentRequest(GetPaintContentRequest request)
         {
             Log.Debug("aktueller Malinhalt wird abgefragt");
-            request.Result = _paintContent.Clone() as Bitmap;
+            request.Result = new Bitmap(_paintContent);
         }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace PaintTogetherClient.Core
             _paintContent.SetPixel(message.Point.X, message.Point.Y, message.Color);
 
             Log.InfoFormat("Bemalung durch Beteiligten von Punkt '{0}:{1}' wurde übernommen", message.Point.X, message.Point.Y);
-    
+
         }
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace PaintTogetherClient.Core
             Log.Debug("Manager wird initialisiert");
 
             // Malbereich kopieren
-            _paintContent = message.PaintContent.Clone() as Bitmap;
+            _paintContent = new Bitmap(message.PaintContent);
         }
     }
 }

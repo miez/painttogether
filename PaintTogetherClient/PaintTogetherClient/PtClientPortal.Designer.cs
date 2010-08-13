@@ -130,13 +130,12 @@ namespace PaintTogetherClient
             this.pnContentPanel.Size = new System.Drawing.Size(506, 333);
             this.pnContentPanel.TabIndex = 2;
             this.pnContentPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PnPaintContentMouseMove);
+            this.pnContentPanel.SizeChanged += new System.EventHandler(this.pnContentPanel_SizeChanged);
             // 
             // PtClientPortal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
-            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(645, 333);
             this.Controls.Add(this.pnContentPanel);
             this.Controls.Add(this.pnRight);
