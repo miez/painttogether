@@ -79,7 +79,41 @@ namespace PaintTogetherClient.Run
                 Console.WriteLine("Keine Malfarbe angegeben");
                 return Color.Empty;
             }
+
+            if (sValue.Split('-').Length == 3)
+            {
+                var r = sValue.Split('-')[0];
+                var g = sValue.Split('-')[1];
+                var b = sValue.Split('-')[2];
+
+                return ColorFromRgb(r, g, b);
+            }
+
             return Color.FromName(sValue);
+        }
+
+        private static Color ColorFromRgb(string r, string g, string b)
+        {
+            var rInt = GetColorInt(r);
+            var gInt = GetColorInt(g);
+            var bInt = GetColorInt(b);
+
+            if (rInt == -1 || gInt == -1 || bInt == -1)
+            {
+                return Color.Empty;
+            }
+
+            return Color.FromArgb(rInt, gInt, bInt);
+        }
+
+        private static int GetColorInt(string part)
+        {
+            int colorPart;
+            if (Int32.TryParse(part, out colorPart) && colorPart >= 0 && colorPart <= 255)
+            {
+                return colorPart;
+            }
+            return -1;
         }
 
         private static string ValidateServer(List<string> args)

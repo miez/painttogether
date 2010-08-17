@@ -87,7 +87,7 @@ namespace PaintTogetherClient.Run
             var sb = new StringBuilder();
             sb.AppendLine("Startparameterbeschreibung des PaintTogetherClient");
             sb.AppendLine(string.Concat("  ", StartClientParams.AliasParamName, " (pflicht) Ihr Alias für die anderen Beteiligten"));
-            sb.AppendLine(string.Concat("  ", StartClientParams.ColorParamName, " (pflicht) Bekannter Farbenname, Ihre Malfarbe"));
+            sb.AppendLine(string.Concat("  ", StartClientParams.ColorParamName, " (pflicht) Bekannter Farbenname, Ihre Malfarbe oder 'R-G-B', wobei R,G,B jeweils eine Zahl zwischen 0-255"));
             sb.AppendLine(string.Concat("  ", StartClientParams.PortParamName, " (optional) Port des Servers - Standard ist '", StartClientParams.DefaultPort, "'"));
             sb.AppendLine(string.Concat("  ", StartClientParams.ServerParamName, " (optional) Name/IP des Servers - Standard ist '", StartClientParams.DefaultServer, "'"));
 
