@@ -68,6 +68,7 @@
     <Compile Include="PtClientServerAdapter.cs" />
     <Compile Include="PtClientCore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PtNetworkUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="lib\log4net.dll" />

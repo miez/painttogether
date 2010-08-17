@@ -69,7 +69,7 @@ namespace PaintTogetherClient.Adapter
             Log.DebugFormat("Verbindung zu dem Server '{0}:{1}' wird aufgebaut", request.ServernameOrIp, request.Port);
 
             // Zuerst die IP aus dem Servernamen ermitteln (falls es nicht schon eine IP ist)
-            var ip = DetermineAndCheckIp(request.ServernameOrIp);
+            var ip = PtNetworkUtils.DetermineAndCheckIp(request.ServernameOrIp);
             if (string.IsNullOrEmpty(ip)) // ist null, wenn Server nicht aufgelöst werden konnte
             {
                 request.Result = string.Format("Fehler beim Verbindungsaufbau zum Server '{0}':'{1}'. Server nicht erreichbar.", request.ServernameOrIp, request.Port);
@@ -114,79 +114,6 @@ namespace PaintTogetherClient.Adapter
                 Log.Error(string.Format("Fehler beim Verbindungsaufbau zu '{0}:{1}'", ip, port), e);
                 return null;
             }
-        }
-
-        /// <summary>
-        /// Ermittelt aus der IP oder dem Servernamen die
-        /// IP und prüft ob diese erreichbar ist
-        /// </summary>
-        /// <param name="servernameOrIp"></param>
-        /// <returns></returns>
-        internal static string DetermineAndCheckIp(string servernameOrIp)
-        {
-            try
-            {
-                var hostEintrag = Dns.GetHostEntry(servernameOrIp);
-                string ip = null;
-                foreach (var curIp in hostEintrag.AddressList)
-                {
-                    if (CheckIP(curIp.ToString()))
-                    {
-                        ip = curIp.ToString();
-                        break;
-                    }
-                }
-
-                if (!string.IsNullOrEmpty(ip) && IpIsAvaible(ip))
-                {
-                    Log.DebugFormat("Ip: '{0}' für Server '{1}' bestimmt", ip, servernameOrIp);
-                    return ip;
-                }
-                Log.ErrorFormat("Server '{0}' nicht erreichbar", servernameOrIp);
-                return null;
-            }
-            catch (Exception e)
-            {
-                Log.Error(string.Format("Fehler bei der IP-Prüfung für '{0}'", servernameOrIp), e);
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Prüft eine IP auf erreichbarkeit
-        /// </summary>
-        /// <param name="ip"></param>
-        /// <returns></returns>
-        private static bool IpIsAvaible(string ip)
-        {
-            try
-            {
-                var ping = new Ping();
-                if (ping.Send(IPAddress.Parse(ip)).Status == IPStatus.Success)
-                {
-                    return true;
-                }
-            }
-            catch (Exception e)
-            {
-                Log.Error(string.Format("Fehler beim Prüfen der IP '{0}' auf Verfügbarkeit mit ping", ip), e);
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Methode prüft einen String, ob es sich um eine IP handelt (vom Aufbau)<para/>
-        /// Quellcode kopiert von http://falkost.de/archives/20
-        /// </summary>
-        /// <param name="ipstring"></param>
-        /// <returns></returns>
-        private static bool CheckIP(string ipstring)
-        {
-            if (Regex.IsMatch(ipstring, @"^([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])$"))
-            {
-                return true;
-            }
-            return false;
         }
     }
 }

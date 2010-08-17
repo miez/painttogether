@@ -28,9 +28,8 @@ $Id: HostApplicationForm.cs 450 2009-02-23 17:26:54Z NLBERLIN\mblankenstein $
 
 using System.Net;
 using NUnit.Framework;
-using PaintTogetherClient.Adapter;
 
-namespace PaintTogetherClient.Test.Adapter.PtClientAdapterStarterCS
+namespace PaintTogetherClient.Test.PtNetworkUtilsCS
 {
     [TestFixture]
     public class DetermineAndCheckIpTest
@@ -39,25 +38,25 @@ namespace PaintTogetherClient.Test.Adapter.PtClientAdapterStarterCS
         public void lokale_IP()
         {
             var localIp = Dns.GetHostEntry("127.0.0.1").AddressList[1].ToString();
-            Assert.That(PtClientAdapterStarter.DetermineAndCheckIp(localIp), Is.EqualTo(localIp));
+            Assert.That(PtNetworkUtils.DetermineAndCheckIp(localIp), Is.EqualTo(localIp));
         }
 
         [Test]
         public void lokaler_Servername()
         {
-            Assert.That(PtClientAdapterStarter.DetermineAndCheckIp("localhost"), Is.EqualTo("127.0.0.1"));
+            Assert.That(PtNetworkUtils.DetermineAndCheckIp("localhost"), Is.EqualTo("127.0.0.1"));
         }
 
         [Test]
         public void nicht_erreichbare_IP()
         {
-            Assert.That(string.IsNullOrEmpty(PtClientAdapterStarter.DetermineAndCheckIp("168.192.111.233")), Is.True);
+            Assert.That(string.IsNullOrEmpty(PtNetworkUtils.DetermineAndCheckIp("168.192.111.233")), Is.True);
         }
 
         [Test]
         public void unbekannter_Servername()
         {
-            Assert.That(string.IsNullOrEmpty(PtClientAdapterStarter.DetermineAndCheckIp("gibtsnicht")), Is.True);
+            Assert.That(string.IsNullOrEmpty(PtNetworkUtils.DetermineAndCheckIp("gibtsnicht")), Is.True);
         }
     }
 }

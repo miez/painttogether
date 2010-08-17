@@ -62,7 +62,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Adapter\PtClientAdapterStarterCS\DetermineAndCheckIpTest.cs" />
+    <Compile Include="PtNetworkUtilsCS\DetermineAndCheckIpTest.cs" />
     <Compile Include="Adapter\PtClientAdapterStarterCS\ProcessConnectToServerTest.cs" />
     <Compile Include="Core\PtClientStarterCS\ProcessPaintContentTest.cs" />
     <Compile Include="Core\PtClientStarterCS\ProcessConnectedTest.cs" />
