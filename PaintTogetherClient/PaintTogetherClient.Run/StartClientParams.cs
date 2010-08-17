@@ -28,6 +28,8 @@ $Id: HostApplicationForm.cs 450 2009-02-23 17:26:54Z NLBERLIN\mblankenstein $
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Text.RegularExpressions;
+using PaintTogetherServer.Run;
 
 namespace PaintTogetherClient.Run
 {
@@ -65,9 +67,27 @@ namespace PaintTogetherClient.Run
             if (string.IsNullOrEmpty(result.Server = ValidateServer(args))) return result;
             if ((result.Color = ValidateColor(args)) == Color.Empty) return result;
             if ((result.Port = ValidateIntValue(args, PortParamName, MinPort, MaxPort, DefaultPort)) == 0) return result;
-            if (string.IsNullOrEmpty(result.Alias = GetParameterValue(args, AliasParamName))) return result;
+            if (string.IsNullOrEmpty(result.Alias = ValidateAlias(args))) return result;
 
             result.Valid = true;
+            return result;
+        }
+
+        private static string ValidateAlias(List<string> args)
+        {
+            var result = GetParameterValue(args, AliasParamName);
+            if (string.IsNullOrEmpty(result))
+            {
+                return null;
+            }
+
+            var regex = new Regex(StartServerParams.AliasRegEx);
+            var match = regex.Match(result);
+            if (match != null && match.Success && match.Length == result.Length)
+            {
+                return null;
+            }
+
             return result;
         }
 
