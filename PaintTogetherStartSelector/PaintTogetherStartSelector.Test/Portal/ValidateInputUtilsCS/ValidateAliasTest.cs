@@ -47,6 +47,12 @@ namespace PaintTogetherStartSelector.Test.Portal.ValidateInputUtilsCS
         }
 
         [Test]
+        public void leerer_Alias()
+        {
+            Assert.IsNotNullOrEmpty(ValidateInputUtils.ValidateAlias(""));
+        }
+
+        [Test]
         public void gueltiger_Alias_sz()
         {
             Assert.IsNullOrEmpty(ValidateInputUtils.ValidateAlias("spaß"));

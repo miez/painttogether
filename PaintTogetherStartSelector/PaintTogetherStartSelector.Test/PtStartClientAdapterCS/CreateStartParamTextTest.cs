@@ -91,7 +91,7 @@ namespace PaintTogetherStartSelector.Test.PtStartClientAdapterCS
             message.Color = Color.Red;
 
             var result = PtStartClientAdapter.CreateStartParamText(message);
-            Assert.That(result, Contains.Substring(string.Format("{0}={1}|{2}|{3}", 
+            Assert.That(result, Contains.Substring(string.Format("{0}={1}-{2}-{3}", 
                 StartClientParams.ColorParamName,
                 message.Color.R,
                 message.Color.G,

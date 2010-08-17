@@ -65,7 +65,7 @@ namespace PaintTogetherStartSelector
             AppendParam(sb, StartClientParams.PortParamName, messge.Port.ToString());
             AppendParam(sb, StartClientParams.ServerParamName, messge.ServernameOrIp);
 
-            var colorText = string.Format("{0}|{1}|{2}", messge.Color.R, messge.Color.G, messge.Color.B);
+            var colorText = string.Format("{0}-{1}-{2}", messge.Color.R, messge.Color.G, messge.Color.B);
             AppendParam(sb, StartClientParams.ColorParamName, colorText);
 
             return sb.ToString();

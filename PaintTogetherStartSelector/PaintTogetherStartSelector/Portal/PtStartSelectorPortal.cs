@@ -77,8 +77,8 @@ namespace PaintTogetherStartSelector.Portal
             InitializeComponent();
 
             // Prüfungsaufforderungen der Dialoge weiterleiten
-            _clientDlg.OnRequestTestServer += OnRequestTestServer;
-            _serverDlg.OnRequestTestLocalPort += OnRequestTestLocalPort;
+            _clientDlg.OnRequestTestServer += message => OnRequestTestServer(message);
+            _serverDlg.OnRequestTestLocalPort += message => OnRequestTestLocalPort(message);
         }
 
         private Color Color { get; set; }

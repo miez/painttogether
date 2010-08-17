@@ -43,6 +43,11 @@ namespace PaintTogetherStartSelector.Portal
         /// <returns>null wenn gültig, oder Nutzerbenachrichtigung</returns>
         public static string ValidateAlias(string alias)
         {
+            if (string.IsNullOrEmpty(alias))
+            {
+                return "Kein Alias angegeben.";
+            }
+
             var regex = new Regex(StartServerParams.AliasRegEx);
             var match = regex.Match(alias);
             if (match != null && match.Success && match.Length == alias.Length)

@@ -46,7 +46,7 @@ namespace PaintTogetherStartSelector
         {
             var clientProcess = new Process();
 
-            clientProcess.StartInfo.FileName = "PaintTogetherClient.Run.exe";
+            clientProcess.StartInfo.FileName = "PaintTogetherServer.Run.exe";
             clientProcess.StartInfo.Arguments = CreateStartParamText(message);
 
             clientProcess.Start();
