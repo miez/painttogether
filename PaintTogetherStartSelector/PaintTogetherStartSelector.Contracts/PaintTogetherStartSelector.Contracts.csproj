@@ -46,6 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IPtStartSelectorPortal.cs" />
+    <Compile Include="IPtStartClientAdapter.cs" />
+    <Compile Include="IPtStartServerAdapter.cs" />
+    <Compile Include="IPtStartSelector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
