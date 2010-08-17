@@ -27,6 +27,7 @@ $Id: HostApplicationForm.cs 450 2009-02-23 17:26:54Z NLBERLIN\mblankenstein $
 
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace PaintTogetherServer.Run
 {
@@ -35,6 +36,12 @@ namespace PaintTogetherServer.Run
     /// </summary>
     public class StartServerParams
     {
+        /// <summary>
+        /// Die Regular Excpression für einen Alias<para/>
+        /// Erlaubt a-Z, 0-9 äüö, ÄÜÖ sowie Leerzeichen und -:_
+        /// </summary>
+        public const string AliasRegEx = "^[A-Za-z0-9 -:_äüöÄÜÖß]*$";
+
         public const int MinWidth = 500;   // siehe Anforderung/Definition
         public const int MaxWidth = 1000;    // siehe Anforderung/Definition
         public const int MinHeight = 200;   // siehe Anforderung/Definition
@@ -89,6 +96,15 @@ namespace PaintTogetherServer.Run
                 Console.WriteLine("Alias nicht angegeben, Standardalias wird verwendet");
                 result = DefaultAlias;
             }
+
+            var regex = new Regex(AliasRegEx);
+            var match = regex.Match(result);
+            if (match != null && match.Success && match.Length == result.Length)
+            {
+                Console.WriteLine("Alias enthält ungültige Zeichen (nur a-Z,äüö,ÄÜÖ,0-9, Leerzeichen, sowie -_:)");
+                return null;
+            }
+
             return result;
         }
 
