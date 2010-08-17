@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintTogetherStartSelector", "PaintTogetherStartSelector\PaintTogetherStartSelector.csproj", "{24851F34-47A6-4056-83E2-DFB97047FAA6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintTogetherStartSelector.Contracts", "PaintTogetherStartSelector.Contracts\PaintTogetherStartSelector.Contracts.csproj", "{81261812-FAB6-45C7-9592-ADFED2A9AE9F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintTogetherStartSelector.Messages", "PaintTogetherStartSelector.Messages\PaintTogetherStartSelector.Messages.csproj", "{E7C0C62B-4F62-4302-A29F-CE8560A9AF5E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintTogetherStartSelector.Test", "PaintTogetherStartSelector.Test\PaintTogetherStartSelector.Test.csproj", "{FDD70D03-52ED-4E17-A732-2EEA02C3C3E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintTogetherStartSelector.Run", "PaintTogetherStartSelector.Run\PaintTogetherStartSelector.Run.csproj", "{B9C747A5-B168-4746-83B5-7F0E2733E616}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{24851F34-47A6-4056-83E2-DFB97047FAA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24851F34-47A6-4056-83E2-DFB97047FAA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24851F34-47A6-4056-83E2-DFB97047FAA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24851F34-47A6-4056-83E2-DFB97047FAA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81261812-FAB6-45C7-9592-ADFED2A9AE9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81261812-FAB6-45C7-9592-ADFED2A9AE9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81261812-FAB6-45C7-9592-ADFED2A9AE9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81261812-FAB6-45C7-9592-ADFED2A9AE9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7C0C62B-4F62-4302-A29F-CE8560A9AF5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7C0C62B-4F62-4302-A29F-CE8560A9AF5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7C0C62B-4F62-4302-A29F-CE8560A9AF5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7C0C62B-4F62-4302-A29F-CE8560A9AF5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDD70D03-52ED-4E17-A732-2EEA02C3C3E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDD70D03-52ED-4E17-A732-2EEA02C3C3E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDD70D03-52ED-4E17-A732-2EEA02C3C3E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDD70D03-52ED-4E17-A732-2EEA02C3C3E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9C747A5-B168-4746-83B5-7F0E2733E616}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9C747A5-B168-4746-83B5-7F0E2733E616}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9C747A5-B168-4746-83B5-7F0E2733E616}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9C747A5-B168-4746-83B5-7F0E2733E616}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
