@@ -252,7 +252,7 @@ namespace PaintTogetherServer.Adapter
             var alias = connectScm.Alias;
             var color = connectScm.Color;
 
-            Log.Debug("Der neue Beteiligte '{0}' wird verarbeitet");
+            Log.DebugFormat("Der neue Beteiligte '{0}' mit der Farbe '{1}|{2}|{3}'wird verarbeitet", connectScm.Alias, connectScm.Color.R, connectScm.Color.G, connectScm.Color.B);
             _confirmedConnections.Add(socket, new KeyValuePair<string, Color>(alias, color));
             OnNewClient(new NewClientConnectedMessage { Alias = alias, Color = color });
         }
