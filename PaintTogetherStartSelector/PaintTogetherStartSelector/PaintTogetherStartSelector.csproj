@@ -31,6 +31,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=1.2.9.0, Culture=neutral, PublicKeyToken=b32731d11ce58905" />
+    <Reference Include="PaintTogetherClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="PaintTogetherClient.Run, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <ExecutableExtension>.exe</ExecutableExtension>
+    </Reference>
+    <Reference Include="PaintTogetherServer.Run, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <ExecutableExtension>.exe</ExecutableExtension>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -46,6 +54,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PtStartSelector.cs" />
+    <Compile Include="PtStartServerAdapter.cs" />
+    <Compile Include="PtStartClientAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -57,6 +68,12 @@
       <Project>{E7C0C62B-4F62-4302-A29F-CE8560A9AF5E}</Project>
       <Name>PaintTogetherStartSelector.Messages</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="lib\log4net.dll" />
+    <Content Include="lib\PaintTogetherClient.dll" />
+    <Content Include="lib\PaintTogetherClient.Run.exe" />
+    <Content Include="lib\PaintTogetherServer.Run.exe" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
