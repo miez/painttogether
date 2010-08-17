@@ -60,6 +60,7 @@
     <Compile Include="PtStartServerAdapterCS\CreateStartParamTextTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PtStartClientAdapterCS\CreateStartParamTextTest.cs" />
+    <Compile Include="Portal\ValidateInputUtilsCS\ValidateAliasTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PaintTogetherStartSelector.Contracts\PaintTogetherStartSelector.Contracts.csproj">

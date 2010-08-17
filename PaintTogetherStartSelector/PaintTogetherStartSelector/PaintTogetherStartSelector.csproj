@@ -44,6 +44,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -54,6 +55,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Portal\PtConnectToServerOptionDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Portal\PtConnectToServerOptionDlg.Designer.cs">
+      <DependentUpon>PtConnectToServerOptionDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Portal\PtPictureOptionDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Portal\PtPictureOptionDlg.Designer.cs">
+      <DependentUpon>PtPictureOptionDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Portal\PtStartSelectorPortal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Portal\PtStartSelectorPortal.Designer.cs">
+      <DependentUpon>PtStartSelectorPortal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Portal\ValidateInputUtils.cs" />
     <Compile Include="PtStartSelector.cs" />
     <Compile Include="PtStartServerAdapter.cs" />
     <Compile Include="PtStartClientAdapter.cs" />
@@ -74,6 +94,19 @@
     <Content Include="lib\PaintTogetherClient.dll" />
     <Content Include="lib\PaintTogetherClient.Run.exe" />
     <Content Include="lib\PaintTogetherServer.Run.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Portal\PtConnectToServerOptionDlg.resx">
+      <DependentUpon>PtConnectToServerOptionDlg.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Portal\PtPictureOptionDlg.resx">
+      <DependentUpon>PtPictureOptionDlg.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Portal\PtStartSelectorPortal.resx">
+      <DependentUpon>PtStartSelectorPortal.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
