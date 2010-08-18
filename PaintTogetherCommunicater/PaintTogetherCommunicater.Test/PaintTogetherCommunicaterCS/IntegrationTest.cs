@@ -97,8 +97,9 @@ namespace PaintTogetherCommunicater.Test.PaintTogetherCommunicaterCS
         [TearDown]
         public void TearDown()
         {
+            _communicater.OnConLost += message => Assert.True(true) /*Dummyverdrahtung*/;
             _communicater.ProcessStopReceiving(new StopReceivingMessage { SoketConnection = _receiverSocket });
-
+         
             _senderSocket.Disconnect(false);
             _receiverSocket.Disconnect(false);
 

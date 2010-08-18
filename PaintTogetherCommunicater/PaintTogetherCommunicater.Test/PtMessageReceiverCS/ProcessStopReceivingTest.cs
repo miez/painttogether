@@ -43,11 +43,12 @@ namespace PaintTogetherCommunicater.Test.PtMessageReceiverCS
         [SetUp]
         public void SetUp()
         {
-            var sockets = TestUtils.CreateLocalSocketConnection(20005);
+            var sockets = TestUtils.CreateLocalSocketConnection(20012);
             _senderSocket = sockets.Key;
             _receiverSocket = sockets.Value;
 
             _ptReceiver = new PtMessageReceiver();
+            _ptReceiver.OnConLost += message => Assert.True(true) /*Dummyverdrahtung*/;
         }
 
         [Test]

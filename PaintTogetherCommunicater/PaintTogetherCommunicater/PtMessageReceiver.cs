@@ -133,48 +133,9 @@ namespace PaintTogetherCommunicater
         /// <param name="socket"></param>
         private void ReceiveMessages(Socket socket)
         {
-            // TODO Vereinfachen
             while (_watchedSockets.Contains(socket))
             {
-                var allContent = new List<byte>();
-                var hasStartBlock = false;
-                var emptyMessageCount = 0;
-
-                do
-                {
-                    var buffer = new byte[32000]; // 32KB-Blöcke
-
-                    // Ganz wichtig, nur die Bytes verwenden, die bei Receive als Datenbytes angegeben wurden!
-                    var receiveCount = socket.Receive(buffer);
-                    var content = new byte[receiveCount];
-                    Array.Copy(buffer, content, receiveCount);
-
-                    if (content.Length == 0)
-                    {
-                        emptyMessageCount++;
-                        if (emptyMessageCount >= 10)
-                        {
-                            Log.Info("Die überwachte Verbindung sendet nur noch leere Nachrichten (Verbindung wurde Clientseitig geschlossen). Überwachung wird beendet");
-                            ProcessStopReceiving(new StopReceivingMessage { SoketConnection = socket });
-                            return;
-                        }
-                        continue;
-                    }
-                    emptyMessageCount = 0;
-
-                    if (!hasStartBlock)
-                    {
-                        if (!HasStartBlock(content))
-                        {
-                            allContent.Clear();
-                            Log.WarnFormat("Es wurde eine Nachricht ohne Startcode empfangen: {0}", content);
-                            continue;
-                        }
-                        hasStartBlock = true;
-                    }
-                    allContent.AddRange(content);
-
-                } while (!HasEndBlock(allContent));
+                var allContent = ReceiveFullMessageBytes(socket);
 
                 if (!_watchedSockets.Contains(socket)) return;
 
@@ -185,6 +146,63 @@ namespace PaintTogetherCommunicater
         }
 
         /// <summary>
+        /// Empfängt solange Bytes, bis die Verbindung keine Daten mehr liefert und stoppt
+        /// diese dann, oder bis ein Bytestrom mit Start und Stop-block empfangen wurde
+        /// und liefert diesen dann als Ergebnis
+        /// </summary>
+        /// <param name="socket"></param>
+        /// <returns>Bytestrom mit Start- und Endbyteblock</returns>
+        private List<byte> ReceiveFullMessageBytes(Socket socket)
+        {
+            var result = new List<byte>();
+            var hasStartBlock = false;
+            var emptyMessageCount = 0;
+
+            do
+            {
+                var buffer = new byte[32000]; // 32KB-Blöcke
+
+                // Ganz wichtig, nur die Bytes verwenden, die bei Receive als Datenbytes angegeben wurden!
+                var receiveCount = socket.Receive(buffer);
+                var content = new byte[receiveCount];
+                Array.Copy(buffer, content, receiveCount);
+
+                #region Behandlung leerer Datenströme
+                if (content.Length == 0)
+                {
+                    emptyMessageCount++;
+                    if (emptyMessageCount >= 10)
+                    {
+                        Log.Info("Die überwachte Verbindung sendet nur noch leere Nachrichten (Verbindung wurde Clientseitig geschlossen). Überwachung wird beendet");
+                        ProcessStopReceiving(new StopReceivingMessage { SoketConnection = socket });
+                        return new List<byte>();
+                    }
+                    continue;
+                }
+                emptyMessageCount = 0;
+                #endregion
+
+                #region Startblockprüfung - handelt es sich um eine gültige Nachricht?
+                if (!hasStartBlock)
+                {
+                    if (!HasStartBlock(content))
+                    {
+                        result.Clear();
+                        Log.WarnFormat("Es wurde eine Nachricht ohne Startcode empfangen: {0}", content);
+                        continue;
+                    }
+                    hasStartBlock = true;
+                }
+                #endregion
+
+                result.AddRange(content);
+
+            } while (!HasEndBlock(result));
+
+            return result;
+        }
+
+        /// <summary>
         /// Sendet für jede in dem Content verborgene Nachricht eine Empfangssignalisierung mit
         /// den dekodierten Nachrichten
         /// </summary>
@@ -192,7 +210,6 @@ namespace PaintTogetherCommunicater
         /// <returns></returns>
         private byte[] ProcessAllContent(List<byte> allContent, Socket socket)
         {
-            // TODO Vereinfachen
             var toReadContent = new List<byte>(allContent.ToArray());
 
             while (HasEndBlock(toReadContent))

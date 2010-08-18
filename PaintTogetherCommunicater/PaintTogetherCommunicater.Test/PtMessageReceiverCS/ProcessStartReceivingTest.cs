@@ -49,6 +49,7 @@ namespace PaintTogetherCommunicater.Test.PtMessageReceiverCS
             _receiverSocket = sockets.Value;
 
             _ptReceiver = new PtMessageReceiver();
+            _ptReceiver.OnConLost += message => Assert.True(true)/*Dummyverdrahtung*/;
         }
 
         [Test]
