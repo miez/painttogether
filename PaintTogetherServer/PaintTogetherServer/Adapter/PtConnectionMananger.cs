@@ -182,26 +182,7 @@ namespace PaintTogetherServer.Adapter
                     _connectedSockets.Add(message.Socket);
                 }
 
-                // Connected-Nachricht schicken
-                IServerClientMessage toSendMessage = new ConnectedScm { Alias = _serverAlias };
-                Log.Debug("Connectednachricht wird an die neue Verbindung geschickt.");
-                OnSendMessage(new SendMessageMessage { SoketConnection = message.Socket, Message = toSendMessage });
-
-                // Spielfeld senden
-                var pContentRequest = new GetCurrentPaintContentRequest();
-                OnRequestCurPaintContent(pContentRequest); // Den Spielfeldinhalt ermitteln
-                toSendMessage = new PaintContentScm { PaintContent = pContentRequest.Result };
-                Log.Debug("Aktueller Malbereich wird an die neue Verbindung geschickt.");
-                OnSendMessage(new SendMessageMessage { SoketConnection = message.Socket, Message = toSendMessage });
-
-                // Beteiligte schicken
-                var painterRequest = new GetCurrentPainterRequest();
-                OnRequestCurPainter(painterRequest);
-                toSendMessage = new AllConnectionsScm { Painter = painterRequest.Result };
-                Log.Debug("Liste der aktuell Beteiligten wird an die neue Verbindung geschickt.");
-                OnSendMessage(new SendMessageMessage { SoketConnection = message.Socket, Message = toSendMessage });
-
-                // Am Ende die Überwachung auf eingehende Nachrichten starten
+                // Überwachung auf eingehende Nachrichten starten
                 Log.Debug("Überwachung auf eingehende Benachrichtigungen für die neue Verbindung wird gestartet.");
                 OnStartReceiving(new StartReceivingMessage { ToWatchSoketConnection = message.Socket });
             }
@@ -314,11 +295,51 @@ namespace PaintTogetherServer.Adapter
             var color = connectScm.Color;
 
             Log.DebugFormat("Der neue Beteiligte '{0}' mit der Farbe '{1}|{2}|{3}'wird verarbeitet", connectScm.Alias, connectScm.Color.R, connectScm.Color.G, connectScm.Color.B);
+            ConfirmConnection(socket, alias, color);
+        }
+
+        /// <summary>
+        /// Bestätigt die Socket-Verbindung und sendet an diese alle Initialisierunginformationen
+        /// </summary>
+        /// <param name="socket"></param>
+        /// <param name="alias"></param>
+        /// <param name="color"></param>
+        private void ConfirmConnection(Socket socket, string alias, Color color)
+        {
             lock (_lockObject)
             {
                 _confirmedConnections.Add(socket, new KeyValuePair<string, Color>(alias, color));
             }
-            OnNewClient(new NewClientConnectedMessage { Alias = alias, Color = color });
+
+            try
+            {
+                // Connected-Nachricht schicken
+                IServerClientMessage toSendMessage = new ConnectedScm { Alias = _serverAlias };
+                Log.Debug("Connectednachricht wird an die neue Verbindung geschickt.");
+                OnSendMessage(new SendMessageMessage { SoketConnection = socket, Message = toSendMessage });
+
+                // Spielfeld senden
+                var pContentRequest = new GetCurrentPaintContentRequest();
+                OnRequestCurPaintContent(pContentRequest); // Den Spielfeldinhalt ermitteln
+                toSendMessage = new PaintContentScm { PaintContent = pContentRequest.Result };
+                Log.Debug("Aktueller Malbereich wird an die neue Verbindung geschickt.");
+                OnSendMessage(new SendMessageMessage { SoketConnection = socket, Message = toSendMessage });
+
+                // Beteiligte schicken
+                var painterRequest = new GetCurrentPainterRequest();
+                OnRequestCurPainter(painterRequest);
+                toSendMessage = new AllConnectionsScm { Painter = painterRequest.Result };
+                Log.Debug("Liste der aktuell Beteiligten wird an die neue Verbindung geschickt.");
+                OnSendMessage(new SendMessageMessage { SoketConnection = socket, Message = toSendMessage });
+
+                // Alle über neuen Client benachrichten
+                OnNewClient(new NewClientConnectedMessage { Alias = alias, Color = color });
+            }
+            catch (Exception e)
+            {
+                Log.Error("Fehler beim Senden der Startinformationen an einen Socket. Socketverbindung wird beendet.", e);
+                DisconnectSocket(socket);
+            }
         }
 
         /// <summary>
