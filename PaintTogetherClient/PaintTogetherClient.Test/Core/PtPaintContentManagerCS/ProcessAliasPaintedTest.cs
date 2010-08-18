@@ -51,12 +51,14 @@ namespace PaintTogetherClient.Test.Core.PtPaintContentManagerCS
             manager.ProcessAliasPaintedMessage(new AliasPaintedMessage()
                     {
                         Color = Color.FromArgb(1, 2, 3),
-                        Point = new Point(3, 4)
+                        StartPoint = new Point(3, 4),
+                        EndPoint = new Point(2, 1)
                     });
 
             // Manager muss Malnbestätigung gesendet haben
             Assert.That(receivedPaintedMessage.Color, Is.EqualTo(Color.FromArgb(1, 2, 3)));
-            Assert.That(receivedPaintedMessage.Point, Is.EqualTo(new Point(3, 4)));
+            Assert.That(receivedPaintedMessage.StartPoint, Is.EqualTo(new Point(3, 4)));
+            Assert.That(receivedPaintedMessage.EndPoint, Is.EqualTo(new Point(2, 1)));
         }
 
         [Test]
@@ -70,7 +72,8 @@ namespace PaintTogetherClient.Test.Core.PtPaintContentManagerCS
             manager.ProcessAliasPaintedMessage(new AliasPaintedMessage()
             {
                 Color = Color.FromArgb(1, 2, 3),
-                Point = new Point(3, 4)
+                StartPoint = new Point(3, 4),
+                EndPoint = new Point(2, 1)
             });
 
             var request = new GetPaintContentRequest();

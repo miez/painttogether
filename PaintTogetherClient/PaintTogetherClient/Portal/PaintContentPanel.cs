@@ -37,6 +37,11 @@ namespace PaintTogetherClient.Portal
         /// </summary>
         private Bitmap _paintContent;
 
+        /// <summary>
+        /// Die Grafik, die den Malbereich darstellt
+        /// </summary>
+        private Graphics _paintGraph;
+
         public PaintContentPanel()
         {
             DoubleBuffered = true;
@@ -63,13 +68,23 @@ namespace PaintTogetherClient.Portal
 
             // Kopieren, verhindert das Bild von außen geändert wird
             _paintContent = new Bitmap(bitmap);
+            _paintGraph = Graphics.FromImage(_paintContent);
 
             Invalidate();
         }
 
-        internal void PaintPoint(Point point, Color color)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="startP"></param>
+        /// <param name="endP"></param>
+        /// <param name="color"></param>
+        internal void PaintLine(Point startP, Point endP, Color color)
         {
-            _paintContent.SetPixel(point.X, point.Y, color);
+            using (var pen = new Pen(color, 1f))
+            {
+                _paintGraph.DrawLine(pen, startP, endP);
+            }
 
             Invalidate(); // Fordert zum Neumalen des Malbereichs auf
         }

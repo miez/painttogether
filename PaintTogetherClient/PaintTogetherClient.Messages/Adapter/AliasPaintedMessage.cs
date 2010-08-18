@@ -30,14 +30,19 @@ using System.Drawing;
 namespace PaintTogetherClient.Messages.Adapter
 {
     /// <summary>
-    /// Information über neu bemalten Punkt
+    /// Information über neu bemalten Strich
     /// </summary>
     public class AliasPaintedMessage
     {
         /// <summary>
-        /// Bemalter Punkt
+        /// Startpunkt für Strich
         /// </summary>
-        public Point Point { get; set; }
+        public Point StartPoint { get; set; }
+
+        /// <summary>
+        /// Endpunkt für Strich
+        /// </summary>
+        public Point EndPoint { get; set; }
 
         /// <summary>
         /// Malfarbe

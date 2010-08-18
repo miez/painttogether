@@ -57,6 +57,11 @@ namespace PaintTogetherClient.Core
         private Bitmap _paintContent;
 
         /// <summary>
+        /// Die Grafik, die den Malbereich darstellt
+        /// </summary>
+        private Graphics _paintGraph;
+
+        /// <summary>
         /// log4net-Logger
         /// </summary>
         private static ILog Log
@@ -73,35 +78,27 @@ namespace PaintTogetherClient.Core
         /// <param name="message"></param>
         public void ProcessPaintSelfMessage(PaintSelfMessage message)
         {
-
-            Log.DebugFormat("Nutzer möchte Punkt '{0}:{1}' übermalen", message.Point.X, message.Point.Y);
-
-            lock (_paintContent)
-            {
-                if (_paintContent.GetPixel(message.Point.X, message.Point.Y) == message.Color)
-                {
-                    Log.DebugFormat("Punkt '{0}:{1}' hat schon die richtige Farbe", message.Point.X, message.Point.Y);
-
-                    // Punkt hat schon die gewünschte Farbe
-                    return;
-                }
-            }
+            Log.DebugFormat("Nutzer möchte Strich zwischen '{0}:{1}' und '{2}:{3}' malen", message.StartPoint.X, message.StartPoint.Y, message.EndPoint.X, message.EndPoint.Y);
 
             // Bemalung für alle anderen Beteiligten über den Server bauftragen
             OnNewPaint(new NewPaintMessage
                    {
                        Color = message.Color,
-                       Point = message.Point
+                       StartPoint = message.StartPoint,
+                       EndPoint = message.EndPoint
                    });
 
             lock (_paintContent)
             {
                 // Trotzdem schon die Bemalung am Client "vornehmen", auch wenn Serverbestätigung 
                 // noch kommen wird
-                _paintContent.SetPixel(message.Point.X, message.Point.Y, message.Color);
+                using (var pen = new Pen(message.Color, 1f))
+                {
+                    _paintGraph.DrawLine(pen, message.StartPoint, message.EndPoint);
+                }
             }
 
-            Log.InfoFormat("Malnachfrage für Puntk '{0}:{1}' an Server gestellt", message.Point.X, message.Point.Y);
+            Log.InfoFormat("Malnachfrage Strich zwischen '{0}:{1}' und '{2}:{3}' an Server gestellt", message.StartPoint.X, message.StartPoint.Y, message.EndPoint.X, message.EndPoint.Y);
         }
 
         /// <summary>
@@ -120,22 +117,25 @@ namespace PaintTogetherClient.Core
         /// <param name="message"></param>
         public void ProcessAliasPaintedMessage(AliasPaintedMessage message)
         {
-            Log.DebugFormat("Server sendet Bemalung eines Punktes ('{0}:{1}')", message.Point.X, message.Point.Y);
+            Log.DebugFormat("Server sendet Bemalung eines Striches zwischen '{0}:{1}' und '{2}:{3}' malen", message.StartPoint.X, message.StartPoint.Y, message.EndPoint.X, message.EndPoint.Y);
 
-            // Bemalung für alle anderen Beteiligten über den Server bauftragen
+            // Bemalung für GUI signalisieren
             OnPainted(new PaintedMessage
             {
                 Color = message.Color,
-                Point = message.Point
+                StartPoint = message.StartPoint,
+                EndPoint = message.EndPoint
             });
 
             lock (_paintContent)
             {
-                _paintContent.SetPixel(message.Point.X, message.Point.Y, message.Color);
+                using (var pen = new Pen(message.Color, 1f))
+                {
+                    _paintGraph.DrawLine(pen, message.StartPoint, message.EndPoint);
+                }
             }
 
-            Log.InfoFormat("Bemalung durch Beteiligten von Punkt '{0}:{1}' wurde übernommen", message.Point.X, message.Point.Y);
-
+            Log.InfoFormat("Bemalung durch Beteiligten eines Striches zwischen '{0}:{1}' und '{2}:{3}' wurde übernommen", message.StartPoint.X, message.StartPoint.Y, message.EndPoint.X, message.EndPoint.Y);
         }
 
         /// <summary>
@@ -148,6 +148,7 @@ namespace PaintTogetherClient.Core
 
             // Malbereich kopieren
             _paintContent = new Bitmap(message.PaintContent);
+            _paintGraph = Graphics.FromImage(_paintContent);
         }
     }
 }

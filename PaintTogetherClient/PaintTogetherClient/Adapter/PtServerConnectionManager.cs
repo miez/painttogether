@@ -126,10 +126,11 @@ namespace PaintTogetherClient.Adapter
             }
 
             // Malaufforderung an den Server weiterleiten
-            var toSendContent = new PaintScm()
+            var toSendContent = new PaintScm
             {
                 Color = message.Color,
-                Point = message.Point
+                StartPoint = message.StartPoint,
+                EndPoint = message.EndPoint
             };
 
             OnSendMessage(new SendMessageMessage { Message = toSendContent, SoketConnection = _serverConnection });
@@ -207,8 +208,8 @@ namespace PaintTogetherClient.Adapter
         /// <param name="paintedScm"></param>
         private void ProcessPaintedScm(PaintedScm paintedScm)
         {
-            Log.Info("Benachrichtigung über übermalten Punkt vom Server erhalten");
-            OnAliasPainted(new AliasPaintedMessage { Color = paintedScm.Color, Point = paintedScm.Point });
+            Log.Info("Benachrichtigung über übermalten Strich vom Server erhalten");
+            OnAliasPainted(new AliasPaintedMessage { Color = paintedScm.Color, StartPoint = paintedScm.StartPoint, EndPoint = paintedScm.EndPoint });
         }
 
         /// <summary>

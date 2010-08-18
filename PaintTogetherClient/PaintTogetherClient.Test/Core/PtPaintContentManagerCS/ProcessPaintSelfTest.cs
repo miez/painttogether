@@ -51,12 +51,14 @@ namespace PaintTogetherClient.Test.Core.PtPaintContentManagerCS
             manager.ProcessPaintSelfMessage(new PaintSelfMessage
                     {
                         Color = Color.FromArgb(1, 2, 3),
-                        Point = new Point(3, 4)
+                        StartPoint = new Point(3, 4),
+                        EndPoint = new Point(2, 1)
                     });
 
             // Manager muss Malnachfrage gesendet haben
             Assert.That(receivedPaintMessage.Color, Is.EqualTo(Color.FromArgb(1, 2, 3)));
-            Assert.That(receivedPaintMessage.Point, Is.EqualTo(new Point(3, 4)));
+            Assert.That(receivedPaintMessage.StartPoint, Is.EqualTo(new Point(3, 4)));
+            Assert.That(receivedPaintMessage.EndPoint, Is.EqualTo(new Point(2, 1)));
         }
 
         [Test]
@@ -70,7 +72,8 @@ namespace PaintTogetherClient.Test.Core.PtPaintContentManagerCS
             manager.ProcessPaintSelfMessage(new PaintSelfMessage
             {
                 Color = Color.FromArgb(1, 2, 3),
-                Point = new Point(3, 4)
+                StartPoint = new Point(3, 4),
+                EndPoint = new Point(33, 24)
             });
 
             var request = new GetPaintContentRequest();
@@ -78,29 +81,6 @@ namespace PaintTogetherClient.Test.Core.PtPaintContentManagerCS
 
             // Punkt muss jetzt bemalt sein
             Assert.That(request.Result.GetPixel(3, 4), Is.EqualTo(Color.FromArgb(1, 2, 3)));
-        }
-
-        [Test]
-        public void Malnachfrage_testen_bei_einem_Punkt_mit_gleicher_Farbe()
-        {
-            NewPaintMessage receivedPaintMessage = null;
-
-            var manager = new PtPaintContentManager();
-            manager.OnNewPaint += message => receivedPaintMessage = message;
-
-            // Erst initialisieren!
-            var content = new Bitmap(12, 13);
-            content.SetPixel(3, 3, Color.FromArgb(1, 2, 3));
-            manager.ProcessInitPaintMananger(new InitPaintManagerMessage { PaintContent = content });
-            manager.ProcessPaintSelfMessage(new PaintSelfMessage
-            {
-                Color = Color.FromArgb(1, 2, 3),
-                Point = new Point(3, 3)
-            });
-
-            // Manager darf bei gleicher Farbe nicht keine Malnachfrage senden,
-            // da überflüssig
-            Assert.IsNull(receivedPaintMessage);
         }
     }
 }

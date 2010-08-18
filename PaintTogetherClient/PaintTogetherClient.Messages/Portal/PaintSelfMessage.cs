@@ -35,9 +35,14 @@ namespace PaintTogetherClient.Messages.Portal
     public class PaintSelfMessage
     {
         /// <summary>
-        /// Zu bemaltender Punkt
+        /// Startpunkt für Strich
         /// </summary>
-        public Point Point { get; set; }
+        public Point StartPoint { get; set; }
+
+        /// <summary>
+        /// Endpunkt für Strich
+        /// </summary>
+        public Point EndPoint { get; set; }
 
         /// <summary>
         /// Malfarbe

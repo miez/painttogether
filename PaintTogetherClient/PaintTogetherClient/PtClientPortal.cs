@@ -73,6 +73,12 @@ namespace PaintTogetherClient
         /// </summary>
         private Color ClientColor { get; set; }
 
+        /// <summary>
+        /// Der zuletzt mit gedrückter linke Maustaste berüherte Punkt
+        /// wenn -100, -100, dann war linke maustaste zuletzt nicht gedrückt
+        /// </summary>
+        private Point _lastMousePos = new Point(-100, -100);
+
         #region IPtClientPortal Member
 
         public event Action<TakePictureRequest> OnRequestTakePicture;
@@ -90,7 +96,7 @@ namespace PaintTogetherClient
         public void ProcessPaintedMessage(PaintedMessage message)
         {
             // Malvorgang im Hauptthread durchführen
-            _synchContext.Post(dummy => PaintPoint(message), message);
+            _synchContext.Post(dummy => PaintLine(message), message);
         }
 
         public void ProcessServerClosedMessage(ServerClosedMessage message)
@@ -119,9 +125,9 @@ namespace PaintTogetherClient
             lstViewPainter.Items.Clear();
         }
 
-        private void PaintPoint(PaintedMessage message)
+        private void PaintLine(PaintedMessage message)
         {
-            pnContentPanel.PaintPoint(message.Point, message.Color);
+            pnContentPanel.PaintLine(message.StartPoint, message.EndPoint, message.Color);
         }
 
         private void RemoveAlias(RemoveAliasMessage message)
@@ -185,37 +191,31 @@ namespace PaintTogetherClient
         {
             if (e.Button == MouseButtons.Left)
             {
-                if (e.X >= pnContentPanel.Width || e.X < 0)
-                { // Wenn maus gedrückt bleibt, dann bekommt man hier auch Events ausserhalb des Panels
+                var curPoint = new Point(e.X, e.Y);
+                if (_lastMousePos.X == _lastMousePos.Y && _lastMousePos.X == -100)
+                {
+                    // erster Punkt, noch nicht malen
+                    _lastMousePos = curPoint;
                     return;
                 }
 
-                if (e.Y >= pnContentPanel.Height || e.Y < 0)
-                { // Wenn maus gedrückt bleibt, dann bekommt man hier auch Events ausserhalb des Panels
-                    return;
-                }
-
-                PaintPoint(ClientColor, new Point(e.X, e.Y));
+                pnContentPanel.PaintLine(_lastMousePos, curPoint, ClientColor);
 
                 // Malanfrage in extra Thread damit GUI nicht hackt
                 var thread = new Thread(SendOnPaint);
-                thread.Start(new PaintSelfMessage { Color = ClientColor, Point = new Point(e.X, e.Y) });
+                thread.Start(new PaintSelfMessage { Color = ClientColor, StartPoint = _lastMousePos, EndPoint = curPoint });
+
+                _lastMousePos = curPoint;
+                return;
             }
+
+            // Markieren, das nicht gemalt werden soll
+            _lastMousePos = new Point(-100, -100);
         }
 
         private void SendOnPaint(object message)
         {
             OnPaintSelf(message as PaintSelfMessage);
-        }
-
-        /// <summary>
-        /// Bemalt in der GUI den entsprechenden Punkt
-        /// </summary>
-        /// <param name="color"></param>
-        /// <param name="point"></param>
-        private void PaintPoint(Color color, Point point)
-        {
-            pnContentPanel.PaintPoint(point, color);
         }
 
         private void InitContent(InitPortalMessage message)
