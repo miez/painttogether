@@ -63,6 +63,8 @@ namespace PaintTogetherClient.Portal
 
             // Kopieren, verhindert das Bild von außen geändert wird
             _paintContent = new Bitmap(bitmap);
+
+            Invalidate();
         }
 
         internal void PaintPoint(Point point, Color color)
