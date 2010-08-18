@@ -99,7 +99,7 @@ namespace PaintTogetherServer.Run
 
             var regex = new Regex(AliasRegEx);
             var match = regex.Match(result);
-            if (match != null && match.Success && match.Length == result.Length)
+            if (match == null || !match.Success || match.Length != result.Length)
             {
                 Console.WriteLine("Alias enthält ungültige Zeichen (nur a-Z,äüö,ÄÜÖ,0-9, Leerzeichen, sowie -_:)");
                 return null;
