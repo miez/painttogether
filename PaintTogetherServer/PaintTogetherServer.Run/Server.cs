@@ -59,24 +59,24 @@ namespace PaintTogetherServer.Run
         {
             // die 3 EBCs verbinden, dabei einfach von allen EBC die Outpins (Events)
             // mit einen entsprechenden Inputpin (Process..-Methode) verbinden
-            _portal.OnServerClose += message => _core.ProcessCloseMessage(message);
-            _core.OnDisconnectAllClients += message => _adapter.ProcessDisconnectAllClientsMessage(message);
-            _core.OnNotifyClientDisconnected += message => _adapter.ProcessNotifyClientDisconnectedMessage(message);
-            _core.OnNotifyNewClient += message => _adapter.ProcessNotifyNewClientMessage(message);
-            _core.OnNotifyPaint += message => _adapter.ProcessNotifyPaintMessage(message);
-            _core.OnSLog += message => _portal.ProcessSLogMessage(message);
-            _core.OnStartPortListing += message => _adapter.ProcessStartPortListingMessage(message);
-            _adapter.OnClientDisconnected += message => _core.ProcessClientDisconnectedMessage(message);
-            _adapter.OnClientPainted += message => _core.ProcessClientPainted(message);
-            _adapter.OnNewClient += message => _core.ProcessNewClientMessage(message);
-            _adapter.OnRequestCurPaintContent += request => _core.ProcessGetCurrentPaintContentRequest(request);
-            _adapter.OnRequestCurPainter += request => _core.ProcessGetCurrentPainterRequest(request);
+            _portal.OnServerClose += _core.ProcessCloseMessage;
+            _core.OnDisconnectAllClients += _adapter.ProcessDisconnectAllClientsMessage;
+            _core.OnNotifyClientDisconnected += _adapter.ProcessNotifyClientDisconnectedMessage;
+            _core.OnNotifyNewClient += _adapter.ProcessNotifyNewClientMessage;
+            _core.OnNotifyPaint += _adapter.ProcessNotifyPaintMessage;
+            _core.OnSLog += _portal.ProcessSLogMessage;
+            _core.OnInitAdapter += _adapter.ProcessInitAdapterMessage;
+            _adapter.OnClientDisconnected += _core.ProcessClientDisconnectedMessage;
+            _adapter.OnClientPainted += _core.ProcessClientPainted;
+            _adapter.OnNewClient += _core.ProcessNewClientMessage;
+            _adapter.OnRequestCurPaintContent += _core.ProcessGetCurrentPaintContentRequest;
+            _adapter.OnRequestCurPainter += _core.ProcessGetCurrentPainterRequest;
 
             // Jetzt muss noch der offene Input-Pin "ProcessStartServerMessage" der CoreEBC
             // bedient werden. Da es sich bei der Serverklasse hier eigentlich auch um eine
             // Platine handelt, habe ich mit "OnStartServer" den passenden Outputpin für
             // die ServerCoreEBC geschaffen. nun verbinden
-            OnStartServer += message => _core.ProcessStartServerMessage(message);
+            OnStartServer += _core.ProcessStartServerMessage;
         }
 
         /// <summary>
@@ -89,7 +89,8 @@ namespace PaintTogetherServer.Run
                   {
                       Height = startParams.Height,
                       Width = startParams.Width,
-                      Port = startParams.Port
+                      Port = startParams.Port,
+                      Alias = startParams.Alias
                   });
         }
     }

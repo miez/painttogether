@@ -50,7 +50,7 @@ namespace PaintTogetherServer
 
         public event Action<NotifyClientDisconnectedMessage> OnNotifyClientDisconnected;
 
-        public event Action<StartPortListingMessage> OnStartPortListing;
+        public event Action<InitAdapterMessage> OnInitAdapter;
 
         public event Action<NotifyPaintToClientsMessage> OnNotifyPaint;
         #endregion
@@ -91,7 +91,7 @@ namespace PaintTogetherServer
             _playerListManager.OnNotifyNewClient += message => OnNotifyNewClient(message);
             _logger.OnSLog += message => OnSLog(message);
             _fieldManager.OnNotifyPaint += message => OnNotifyPaint(message);
-            _serverStarter.OnStartPortListing += message => OnStartPortListing(message);
+            _serverStarter.OnInitAdapter += message => OnInitAdapter(message);
             // --
             // Jetzt müssen noch alle nicht verbundenen Input und Outputpins
             // der internen EBCs miteinander verdrahtet werden

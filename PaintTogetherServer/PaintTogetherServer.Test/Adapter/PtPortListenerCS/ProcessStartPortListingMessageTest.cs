@@ -33,6 +33,7 @@ using System.Collections.Generic;
 using PaintTogetherServer.Adapter;
 using PaintTogetherServer.Messages.Adapter;
 using System.Threading;
+using PaintTogetherServer.Messages.Adapter.ConnectionManager;
 
 namespace PaintTogetherServer.Test.Adapter.PtPortListenerCS
 {
@@ -53,7 +54,7 @@ namespace PaintTogetherServer.Test.Adapter.PtPortListenerCS
             {
                 // Verbindung zu dem überwachten Port aufbauen
                 var clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                clientSocket.Connect(Dns.GetHostAddresses("192.168.2.44")[0], serverPort);
+                clientSocket.Connect(Dns.GetHostAddresses("127.0.0.1")[0], serverPort);
             }
 
             Thread.Sleep(500);

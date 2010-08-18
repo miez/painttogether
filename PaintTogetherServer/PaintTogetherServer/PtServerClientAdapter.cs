@@ -31,6 +31,7 @@ using PaintTogetherServer.Messages.Adapter;
 using PaintTogetherServer.Contracts.Adapter;
 using PaintTogetherServer.Adapter;
 using PaintTogetherCommunicater.Contracts;
+using PaintTogetherServer.Messages.Adapter.ConnectionManager;
 
 namespace PaintTogetherServer
 {
@@ -125,9 +126,16 @@ namespace PaintTogetherServer
             _connectionMananger.ProcessNotifyPaintMessage(message);
         }
 
-        public void ProcessStartPortListingMessage(StartPortListingMessage message)
+        public void ProcessInitAdapterMessage(InitAdapterMessage message)
         {
-            _portListener.ProcessStartPortListingMessage(message);
+            // Hier muss der Inputpin die Verarbeitung auf zwei interne EBCs verteilen
+            var initConManagerMessage = new InitConnectionManagerMessage();
+            initConManagerMessage.Alias = message.Alias;
+            _connectionMananger.ProcessInitConnectionManagerMessage(initConManagerMessage);
+
+            var portStartMessage = new StartPortListingMessage();
+            portStartMessage.Port = message.Port;
+            _portListener.ProcessStartPortListingMessage(portStartMessage);
         }
         #endregion
     }

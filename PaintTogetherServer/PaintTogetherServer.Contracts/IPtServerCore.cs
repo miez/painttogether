@@ -62,9 +62,9 @@ namespace PaintTogetherServer.Contracts
         event Action<NotifyClientDisconnectedMessage> OnNotifyClientDisconnected;
 
         /// <summary>
-        /// Beauftragt die Portüberwachung für neue Clients
+        /// Beauftragt die Initialisierung des Adapters und die Portüberwachung
         /// </summary>
-        event Action<StartPortListingMessage> OnStartPortListing;
+        event Action<InitAdapterMessage> OnInitAdapter;
 
         /// <summary>
         /// Beauftragt die Benachrichtigung aller Clients über

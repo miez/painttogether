@@ -101,6 +101,12 @@ namespace PaintTogetherServer.Contracts.Adapter
         /// </summary>
         /// <param name="message"></param>
         void ProcessNewConnectionMessage(NewConnectionMessage message);
+
+        /// <summary>
+        /// Verarbeitet Initialisierungsinformationen 
+        /// </summary>
+        /// <param name="message"></param>
+        void ProcessInitConnectionManagerMessage(InitConnectionManagerMessage message);
         #endregion
 
         #region Pins die später mit dem PaintTogetherCommunicater verbunden werden

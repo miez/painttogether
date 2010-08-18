@@ -97,7 +97,7 @@ namespace PaintTogetherServer.Contracts
         /// einen Port zu überwachen
         /// </summary>
         /// <param name="message"></param>
-        void ProcessStartPortListingMessage(StartPortListingMessage message);
+        void ProcessInitAdapterMessage(InitAdapterMessage message);
         #endregion
     }
 }

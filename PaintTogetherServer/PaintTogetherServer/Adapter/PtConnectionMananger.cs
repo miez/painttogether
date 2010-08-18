@@ -65,6 +65,12 @@ namespace PaintTogetherServer.Adapter
         #endregion
 
         /// <summary>
+        /// Ein Objekt was für das locken vor dem "Ändern" (nicht lesen)
+        /// auf die Connectionlisten vorgesehen ist
+        /// </summary>
+        private readonly object _lockObject = new object();
+
+        /// <summary>
         /// Alle aktuell verbundenen Clientverbindungen
         /// </summary>
         private readonly List<Socket> _connectedSockets = new List<Socket>();
@@ -78,7 +84,7 @@ namespace PaintTogetherServer.Adapter
         /// <summary>
         /// Der Alias der Person, die den Server gestartet hat
         /// </summary>
-        private string _serverAlias = "Dummyname"; // TODO Woher nehmen???
+        private string _serverAlias = "N/A";
 
         /// <summary>
         /// Logger für Logging über log4net
@@ -96,22 +102,48 @@ namespace PaintTogetherServer.Adapter
         {
             Log.Debug("Alle offenen Clientverbindungen werden geschlossen");
 
-            foreach (var socket in _connectedSockets)
+            var toStopSockets = new List<Socket>();
+            toStopSockets.AddRange(_connectedSockets); // muss kopiert werden da bei DisconnectSocket auf _connectedSockets zugegriffen wird
+
+            // Jetzt erst die Sockets stoppen, damit durch die Eventbearbeitung nicht
+            // die Liste _connectedSockets während des Durchlaufens geändert wird
+            foreach (var socket in toStopSockets)
+            {
+                DisconnectSocket(socket);
+            }
+
+            Log.Debug("Alle offenen Clientverbindungen wurden geschlossen");
+        }
+
+        /// <summary>
+        /// Beendet die Überwachung eines verbundenen Sockets und entfernt ihn aus der aktuellen
+        /// Verbundsliste !!! Achtung vor Deadlocks, diese Methode nicht aufrufen wenn
+        /// _connectedSockets gelockt wurde
+        /// </summary>
+        /// <param name="socket"></param>
+        private void DisconnectSocket(Socket socket)
+        {
+            OnStopReceiving(new StopReceivingMessage { SoketConnection = socket });
+
+            Thread.Sleep(100); // sleep damit durch das Stoppen nicht ConLost ausgelöst wird
+
+            lock (_lockObject) // Locken damit kein anderer Thread im Hintergrund ein Element hinzufügt/entfernt
             {
                 if (_confirmedConnections.ContainsKey(socket))
                 {
                     _confirmedConnections.Remove(socket);
                 }
-                OnStopReceiving(new StopReceivingMessage { SoketConnection = socket });
 
-                Thread.Sleep(100); // sleep damit durch das Stoppen nicht ConLost ausgelöst wird
-                socket.Disconnect(false);
-                socket.Close();
-                Log.Debug(" - Verbindung geschlossen/ Empfangsüberwachung der Verbindung beendet");
+                if (_connectedSockets.Contains(socket))
+                {
+                    _connectedSockets.Remove(socket);
+                }
             }
-            _connectedSockets.Clear();
 
-            Log.Debug("Alle offenen Clientverbindungen wurden geschlossen");
+            socket.Disconnect(false);
+            socket.Close();
+
+            Log.Debug(" - Verbindung geschlossen/ Empfangsüberwachung der Verbindung beendet");
         }
 
         public void ProcessNotifyNewClientMessage(NotifyNewClientMessage message)
@@ -145,7 +177,10 @@ namespace PaintTogetherServer.Adapter
             Log.Debug("Neue Verbindung eingegangen. Verbindung wirde jetzt bearbeitet.");
             try
             {
-                _connectedSockets.Add(message.Socket);
+                lock (_lockObject)
+                {
+                    _connectedSockets.Add(message.Socket);
+                }
 
                 // Connected-Nachricht schicken
                 IServerClientMessage toSendMessage = new ConnectedScm { Alias = _serverAlias };
@@ -173,7 +208,11 @@ namespace PaintTogetherServer.Adapter
             catch (Exception e)
             {
                 Log.Error("Fehler beim Behandeln einer neuen Verbindung", e);
-                _connectedSockets.Remove(message.Socket);
+
+                lock (_lockObject)
+                {
+                    _connectedSockets.Remove(message.Socket);
+                }
             }
         }
 
@@ -181,16 +220,18 @@ namespace PaintTogetherServer.Adapter
         {
             Log.Debug("Eine Clientverbindung wurde von außen getrennt");
 
-            if (_connectedSockets.Contains(message.DisconnectedSoketConnection))
+            lock (_lockObject)
             {
-                _connectedSockets.Remove(message.DisconnectedSoketConnection);
+                if (_connectedSockets.Contains(message.DisconnectedSoketConnection))
+                {
+                    _connectedSockets.Remove(message.DisconnectedSoketConnection);
+                }
             }
 
-            if (_confirmedConnections.ContainsKey(message.DisconnectedSoketConnection))
-            {
-                var data = _confirmedConnections[message.DisconnectedSoketConnection];
-                _confirmedConnections.Remove(message.DisconnectedSoketConnection);
+            var data = GetAndRemoveConfirmedConData(message.DisconnectedSoketConnection);
 
+            if (!string.IsNullOrEmpty(data.Key))
+            {
                 Log.DebugFormat("Server wird über Clientverlust informiert Alias:'{0}'", data.Key);
                 OnClientDisconnected(new ClientDisconnectedMessage { Alias = data.Key, Color = data.Value });
             }
@@ -198,6 +239,26 @@ namespace PaintTogetherServer.Adapter
             {
                 Log.Warn("Die getrennte Clientverbindung wurde noch nicht bestätigt");
             }
+        }
+
+        /// <summary>
+        /// Liest die Daten über eine bestätigte Verbindung aus der 
+        /// Liste aus und löscht diese aus der Liste
+        /// </summary>
+        /// <param name="socket"></param>
+        /// <returns></returns>
+        private KeyValuePair<string, Color> GetAndRemoveConfirmedConData(Socket socket)
+        {
+            lock (_lockObject)
+            {
+                if (_confirmedConnections.ContainsKey(socket))
+                {
+                    var data = _confirmedConnections[socket];
+                    _confirmedConnections.Remove(socket);
+                    return data;
+                }
+            }
+            return new KeyValuePair<string, Color>(null, Color.Empty);
         }
 
         public void ProcessNewMessageMessage(NewMessageReceivedMessage message)
@@ -253,7 +314,10 @@ namespace PaintTogetherServer.Adapter
             var color = connectScm.Color;
 
             Log.DebugFormat("Der neue Beteiligte '{0}' mit der Farbe '{1}|{2}|{3}'wird verarbeitet", connectScm.Alias, connectScm.Color.R, connectScm.Color.G, connectScm.Color.B);
-            _confirmedConnections.Add(socket, new KeyValuePair<string, Color>(alias, color));
+            lock (_lockObject)
+            {
+                _confirmedConnections.Add(socket, new KeyValuePair<string, Color>(alias, color));
+            }
             OnNewClient(new NewClientConnectedMessage { Alias = alias, Color = color });
         }
 
@@ -263,10 +327,23 @@ namespace PaintTogetherServer.Adapter
         /// <param name="toSendContent"></param>
         private void SendMessageContentToConfirmedSockets(IServerClientMessage toSendContent)
         {
-            foreach (var socket in _confirmedConnections.Keys)
+            var conCopy = new List<Socket>();
+            conCopy.AddRange(_confirmedConnections.Keys);
+
+            foreach (var socket in conCopy)
             {
                 OnSendMessage(new SendMessageMessage { SoketConnection = socket, Message = toSendContent });
             }
+        }
+
+        /// <summary>
+        /// Verarbeitet Initialisierungsinformationen 
+        /// </summary>
+        /// <param name="message"></param>
+        public void ProcessInitConnectionManagerMessage(InitConnectionManagerMessage message)
+        {
+            Log.DebugFormat("Als Alias für den Servernutzer wird '{0}' gesetzt", message.Alias);
+            _serverAlias = message.Alias;
         }
     }
 }

@@ -48,7 +48,9 @@
   <ItemGroup>
     <Compile Include="Adapter\ClientPaintedMessage.cs" />
     <Compile Include="Adapter\ClientDisconnectedMessage.cs" />
+    <Compile Include="Adapter\ConnectionManager\InitConnectionManagerMessage.cs" />
     <Compile Include="Adapter\ConnectionManager\NewConnectionMessage.cs" />
+    <Compile Include="Adapter\ConnectionManager\StartPortListingMessage.cs" />
     <Compile Include="Adapter\DisconnectAllClientsMessage.cs" />
     <Compile Include="Adapter\GetCurrentPaintContentRequest.cs" />
     <Compile Include="Adapter\GetCurrentPainterRequest.cs" />

@@ -46,5 +46,10 @@ namespace PaintTogetherServer.Messages.Core
         /// Breite des Malbereichs
         /// </summary>
         public int Width { get; set; }
+
+        /// <summary>
+        /// Alias des Nutzers der den Server startet
+        /// </summary>
+        public string Alias { get; set; }
     }
 }

@@ -30,11 +30,16 @@ namespace PaintTogetherServer.Messages.Adapter
     /// <summary>
     /// Startnachricht für Adapter
     /// </summary>
-    public class StartPortListingMessage
+    public class InitAdapterMessage
     {
         /// <summary>
         /// Der für neue Clientverbindungen zu überwachende Port
         /// </summary>
         public int Port { get; set; }
+
+        /// <summary>
+        /// Alias des Nutzers der den Server startet
+        /// </summary>
+        public string Alias { get; set; }
     }
 }

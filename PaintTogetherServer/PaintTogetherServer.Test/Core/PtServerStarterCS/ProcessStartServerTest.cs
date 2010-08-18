@@ -49,17 +49,17 @@ namespace PaintTogetherServer.Test.Core.PtServerStarterCS
             var port = 12342;
 
             InitMessage initMessage = null;
-            StartPortListingMessage startPortListingMessage = null;
+            InitAdapterMessage initAdapterMessage = null;
 
             var starter = new PtServerStarter();
             starter.OnInit += message => initMessage = message;
-            starter.OnStartPortListing += message => startPortListingMessage = message;
+            starter.OnInitAdapter += message => initAdapterMessage = message;
 
             starter.ProcessStartServerMessage(new StartServerMessage { Height = height, Width = width, Port = port });
 
             Assert.That(initMessage.Height, Is.EqualTo(height));
             Assert.That(initMessage.Width, Is.EqualTo(width));
-            Assert.That(startPortListingMessage.Port, Is.EqualTo(port));
+            Assert.That(initAdapterMessage.Port, Is.EqualTo(port));
         }
     }
 }

@@ -43,9 +43,9 @@ namespace PaintTogetherServer.Contracts.Core
         event Action<InitMessage> OnInit;
 
         /// <summary>
-        /// Beauftragt den Start der Portüberwachung
+        /// Beauftragt die Initialisierung des Adapters und die Portüberwachung
         /// </summary>
-        event Action<StartPortListingMessage> OnStartPortListing;
+        event Action<InitAdapterMessage> OnInitAdapter;
 
         /// <summary>
         /// Verarbeitet die Startaufforderung für die Initialisierung des Servers

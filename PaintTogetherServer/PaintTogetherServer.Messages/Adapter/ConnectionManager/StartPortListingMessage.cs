@@ -25,38 +25,16 @@ $Id: HostApplicationForm.cs 450 2009-02-23 17:26:54Z NLBERLIN\mblankenstein $
 
 */
 
-using System;
-using PaintTogetherServer.Contracts.Core;
-using PaintTogetherServer.Messages.Adapter;
-using PaintTogetherServer.Messages.Core;
-using PaintTogetherServer.Messages.Core.PaintFieldManager;
-
-namespace PaintTogetherServer.Core
+namespace PaintTogetherServer.Messages.Adapter.ConnectionManager
 {
     /// <summary>
-    /// Sendet Nachrichten über Sokteverbindungen
+    /// Startnachricht für Adapter
     /// </summary>
-    internal class PtServerStarter : IPtServerStarter
+    internal class StartPortListingMessage
     {
         /// <summary>
-        /// Beauftragt zur Initialisierung des Malbereichs
+        /// Der für neue Clientverbindungen zu überwachende Port
         /// </summary>
-        public event Action<InitMessage> OnInit;
-
-        /// <summary>
-        /// Beauftragt den Start der Portüberwachung
-        /// </summary>
-        public event Action<InitAdapterMessage> OnInitAdapter;
-
-        /// <summary>
-        /// Verarbeitet die Startaufforderung für die Initialisierung des Servers
-        /// </summary>
-        /// <param name="message"></param>
-        public void ProcessStartServerMessage(StartServerMessage message)
-        {
-            // Hier muss die Startanforderung lediglich aufgeteielt werden
-            OnInit(new InitMessage { Height = message.Height, Width = message.Width });
-            OnInitAdapter(new InitAdapterMessage { Port = message.Port, Alias = message.Alias });
-        }
+        public int Port { get; set; }
     }
 }

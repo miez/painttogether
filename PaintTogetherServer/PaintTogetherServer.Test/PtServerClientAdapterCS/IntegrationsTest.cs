@@ -54,7 +54,7 @@ namespace PaintTogetherServer.Test.PtServerClientAdapterCS
         {
             _serverPort = new Random().Next(20000, 30000);
             _adapter = new PtServerClientAdapter();
-            _adapter.ProcessStartPortListingMessage(new StartPortListingMessage { Port = _serverPort });
+            _adapter.ProcessInitAdapterMessage(new InitAdapterMessage { Port = _serverPort });
             _adapter.OnRequestCurPaintContent += request => request.Result = _requestedBitMap;
             _adapter.OnRequestCurPainter += request => request.Result = _requestedPainter;
         }
@@ -63,6 +63,8 @@ namespace PaintTogetherServer.Test.PtServerClientAdapterCS
         public void TearDown()
         {
             Thread.Sleep(500);
+
+            _adapter.OnClientDisconnected += message => Assert.True(true) /*Dummyverdrahtung*/;
 
             // TODO Hier muss später auch der PortListener mit gestoppt werden
             _adapter.ProcessDisconnectAllClientsMessage(new DisconnectAllClientsMessage());
@@ -76,7 +78,7 @@ namespace PaintTogetherServer.Test.PtServerClientAdapterCS
 
             // Verbindung zu dem überwachten Port aufbauen
             var clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            clientSocket.Connect(Dns.GetHostAddresses("192.168.2.44")[0], _serverPort);
+            clientSocket.Connect(Dns.GetHostAddresses("127.0.0.1")[0], _serverPort);
 
             // Gesendete Nachrichten muessen auf Clientseite abgerufen, sonst blockiert der Sendevorgang
             var communicater = new PaintTogetherCommunicater.PaintTogetherCommunicater();
@@ -101,7 +103,7 @@ namespace PaintTogetherServer.Test.PtServerClientAdapterCS
 
             // Verbindung zu dem überwachten Port aufbauen
             var clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            clientSocket.Connect(Dns.GetHostAddresses("192.168.2.44")[0], _serverPort);
+            clientSocket.Connect(Dns.GetHostAddresses("127.0.0.1")[0], _serverPort);
 
             // Gesendete Nachrichten muessen auf Clientseite abgerufen, sonst blockiert der Sendevorgang
             var communicater = new PaintTogetherCommunicater.PaintTogetherCommunicater();
