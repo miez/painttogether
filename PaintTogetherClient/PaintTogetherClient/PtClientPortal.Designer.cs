@@ -140,7 +140,9 @@ namespace PaintTogetherClient
             this.ClientSize = new System.Drawing.Size(645, 333);
             this.Controls.Add(this.pnContentPanel);
             this.Controls.Add(this.pnRight);
+            this.MaximizeBox = false;
             this.Name = "PtClientPortal";
+            this.ShowIcon = false;
             this.Text = "PtClientPortal";
             this.pnRight.ResumeLayout(false);
             this.pnRight.PerformLayout();
