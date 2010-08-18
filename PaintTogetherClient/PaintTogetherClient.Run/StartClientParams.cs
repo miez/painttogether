@@ -83,7 +83,7 @@ namespace PaintTogetherClient.Run
 
             var regex = new Regex(StartServerParams.AliasRegEx);
             var match = regex.Match(result);
-            if (match != null && match.Success && match.Length == result.Length)
+            if (match == null || !match.Success || match.Length != result.Length)
             {
                 return null;
             }
