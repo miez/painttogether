@@ -66,7 +66,7 @@ namespace PaintTogetherCommunicater.Test.PtMessageSenderCS
         {
             #region Arrange - Testvereinbarungen/vorbereitungen treffen
             var sendBytes = new byte[] { 34, 123, 4 };
-            var toSendMessage = new PaintedScm { Color = Color.Red, Point = new Point(2, 2) };
+            var toSendMessage = new PaintedScm { Color = Color.Red, StartPoint = new Point(2, 2), EndPoint= new Point(3, 3) };
 
             // Wenn das Nachrichtenobjekt umgewandelt werden soll, dann ist das
             // Ergebnis das hier angegeben sendByte-Array. Wir brauchen für den Test

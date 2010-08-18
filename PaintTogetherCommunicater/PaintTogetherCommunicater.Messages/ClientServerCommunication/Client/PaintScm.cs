@@ -35,9 +35,14 @@ namespace PaintTogetherCommunicater.Messages.ClientServerCommunication.Client
     public class PaintScm : IServerClientMessage
     {
         /// <summary>
-        /// Punkt der bemalt werden soll
+        /// Startpunkt für Strich
         /// </summary>
-        public Point Point { get; set; }
+        public Point StartPoint { get; set; }
+
+        /// <summary>
+        /// Endpunkt für Strich
+        /// </summary>
+        public Point EndPoint { get; set; }
 
         /// <summary>
         /// Die Farbe, mit der der Punkt bemalt werden soll

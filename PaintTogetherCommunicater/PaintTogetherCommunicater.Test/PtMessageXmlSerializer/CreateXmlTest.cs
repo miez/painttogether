@@ -55,13 +55,15 @@ namespace PaintTogetherCommunicater.Test.PtMessageReceiverCS
         public void ClientPaintScm()
         {
             var toConvert = new PaintScm();
-            toConvert.Point = new Point(4, 5);
+            toConvert.StartPoint = new Point(4, 5);
+            toConvert.EndPoint = new Point(40, 50);
             toConvert.Color = Color.Red;
 
             var xml = PtMessageXmlSerializer.CreateXml(toConvert);
             var reConverted = PtMessageXmlSerializer.CreateMessage(xml) as PaintScm;
 
-            Assert.That(reConverted.Point, Is.EqualTo(toConvert.Point));
+            Assert.That(reConverted.StartPoint, Is.EqualTo(toConvert.StartPoint));
+            Assert.That(reConverted.EndPoint, Is.EqualTo(toConvert.EndPoint));
             CompareColors(reConverted.Color, toConvert.Color);
         }
 
@@ -145,13 +147,15 @@ namespace PaintTogetherCommunicater.Test.PtMessageReceiverCS
         public void ServerPaintedScm()
         {
             var toConvert = new PaintedScm();
-            toConvert.Point = new Point(4, 5);
+            toConvert.StartPoint = new Point(4, 5);
+            toConvert.EndPoint = new Point(123, 412);
             toConvert.Color = Color.Red;
 
             var xml = PtMessageXmlSerializer.CreateXml(toConvert);
             var reConverted = PtMessageXmlSerializer.CreateMessage(xml) as PaintedScm;
 
-            Assert.That(reConverted.Point, Is.EqualTo(toConvert.Point));
+            Assert.That(reConverted.StartPoint, Is.EqualTo(toConvert.StartPoint));
+            Assert.That(reConverted.EndPoint, Is.EqualTo(toConvert.EndPoint));
             CompareColors(reConverted.Color, toConvert.Color);
         }
 

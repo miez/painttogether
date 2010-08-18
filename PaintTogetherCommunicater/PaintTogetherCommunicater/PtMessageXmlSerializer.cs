@@ -238,8 +238,16 @@ namespace PaintTogetherCommunicater
         private static void ClientPaintMessageToXml(XmlDocument toFillDocument, XmlNode messageNode, IServerClientMessage message)
         {
             AppendColorNode(toFillDocument, messageNode, (message as PaintScm).Color);
-            AppendIntAttr(toFillDocument, messageNode, "Y", (message as PaintScm).Point.Y);
-            AppendIntAttr(toFillDocument, messageNode, "X", (message as PaintScm).Point.X);
+
+            var startNode = toFillDocument.CreateElement("StartPoint");
+            AppendIntAttr(toFillDocument, startNode, "Y", (message as PaintScm).StartPoint.Y);
+            AppendIntAttr(toFillDocument, startNode, "X", (message as PaintScm).StartPoint.X);
+            messageNode.AppendChild(startNode);
+
+            var endNode = toFillDocument.CreateElement("EndPoint");
+            AppendIntAttr(toFillDocument, endNode, "Y", (message as PaintScm).EndPoint.Y);
+            AppendIntAttr(toFillDocument, endNode, "X", (message as PaintScm).EndPoint.X);
+            messageNode.AppendChild(endNode);
         }
 
         private static void ServerAllConectionsMessageToXml(XmlDocument toFillDocument, XmlNode messageNode, IServerClientMessage message)
@@ -280,8 +288,16 @@ namespace PaintTogetherCommunicater
         private static void ServerPaintedMessageToXml(XmlDocument toFillDocument, XmlNode messageNode, IServerClientMessage message)
         {
             AppendColorNode(toFillDocument, messageNode, (message as PaintedScm).Color);
-            AppendIntAttr(toFillDocument, messageNode, "Y", (message as PaintedScm).Point.Y);
-            AppendIntAttr(toFillDocument, messageNode, "X", (message as PaintedScm).Point.X);
+
+            var startNode = toFillDocument.CreateElement("StartPoint");
+            AppendIntAttr(toFillDocument, startNode, "Y", (message as PaintedScm).StartPoint.Y);
+            AppendIntAttr(toFillDocument, startNode, "X", (message as PaintedScm).StartPoint.X);
+            messageNode.AppendChild(startNode);
+
+            var endNode = toFillDocument.CreateElement("EndPoint");
+            AppendIntAttr(toFillDocument, endNode, "Y", (message as PaintedScm).EndPoint.Y);
+            AppendIntAttr(toFillDocument, endNode, "X", (message as PaintedScm).EndPoint.X);
+            messageNode.AppendChild(endNode);
         }
         #endregion
 
@@ -298,8 +314,22 @@ namespace PaintTogetherCommunicater
         {
             var result = new PaintScm();
             result.Color = ReadColorAttr(toReadMessageNode);
-            result.Point = new Point(ReadIntAttr(toReadMessageNode, "X"), ReadIntAttr(toReadMessageNode, "Y"));
+            result.StartPoint = ReadPoint(toReadMessageNode, "StartPoint");
+            result.EndPoint = ReadPoint(toReadMessageNode, "EndPoint");
             return result;
+        }
+
+        private static Point ReadPoint(XmlNode toReadMessageNode, string nodeName)
+        {
+            var x = -1;
+            var y = -1;
+            foreach (XmlNode curNode in toReadMessageNode.ChildNodes)
+            {
+                if (curNode.Name != nodeName) continue;
+                x = ReadIntAttr(curNode, "X");
+                y = ReadIntAttr(curNode, "Y");
+            }
+            return new Point(x, y);
         }
 
         private static IServerClientMessage ServerAllConectionsXmlToMessage(XmlNode toReadMessageNode)
@@ -350,7 +380,8 @@ namespace PaintTogetherCommunicater
         {
             var result = new PaintedScm();
             result.Color = ReadColorAttr(toReadMessageNode);
-            result.Point = new Point(ReadIntAttr(toReadMessageNode, "X"), ReadIntAttr(toReadMessageNode, "Y"));
+            result.StartPoint = ReadPoint(toReadMessageNode, "StartPoint");
+            result.EndPoint = ReadPoint(toReadMessageNode, "EndPoint");
             return result;
         }
         #endregion

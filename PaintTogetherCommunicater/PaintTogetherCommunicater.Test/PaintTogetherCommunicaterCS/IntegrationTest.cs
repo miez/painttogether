@@ -64,7 +64,8 @@ namespace PaintTogetherCommunicater.Test.PaintTogetherCommunicaterCS
         {
             var toSendMessage = new PaintedScm();
             toSendMessage.Color = Color.FromArgb(32, 23, 14);
-            toSendMessage.Point = new Point(3, 4);
+            toSendMessage.StartPoint = new Point(3, 4);
+            toSendMessage.EndPoint = new Point(30, 40);
             PaintedScm receivedMessage = null;
 
             _communicater.OnNewMessageReceived += 
@@ -74,7 +75,8 @@ namespace PaintTogetherCommunicater.Test.PaintTogetherCommunicaterCS
 
             Thread.Sleep(1000); // Senden und Empfangen dauert einen kurzen Moment
 
-            Assert.That(receivedMessage.Point, Is.EqualTo(toSendMessage.Point));
+            Assert.That(receivedMessage.StartPoint, Is.EqualTo(toSendMessage.StartPoint));
+            Assert.That(receivedMessage.EndPoint, Is.EqualTo(toSendMessage.EndPoint));
             Assert.That(receivedMessage.Color, Is.EqualTo(toSendMessage.Color));
         }
 
