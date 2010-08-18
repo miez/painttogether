@@ -51,6 +51,11 @@ namespace PaintTogetherServer.Core
         private Bitmap _paintContent;
 
         /// <summary>
+        /// Die Grafik, die den Malbereich darstellt
+        /// </summary>
+        private Graphics _paintGraph;
+
+        /// <summary>
         /// log4net-Logger für Logging
         /// </summary>
         private static ILog Log
@@ -69,14 +74,12 @@ namespace PaintTogetherServer.Core
         {
             Log.DebugFormat("Malbereich wird mit einer Größe von 'W={0}:H={1}' initialisiert", message.Width, message.Height);
             _paintContent = new Bitmap(message.Width, message.Height);
+            _paintGraph = Graphics.FromImage(_paintContent);
 
-            // Content weiß bemalen
-            for (var xPos = 0; xPos < _paintContent.Width; xPos++)
+            // Content weiß bemalen)
+            using (var brush = new SolidBrush(Color.White))
             {
-                for (var yPos = 0; yPos < _paintContent.Height; yPos++)
-                {
-                    _paintContent.SetPixel(xPos, yPos, Color.White);
-                }
+                _paintGraph.FillRectangle(brush, 0f, 0f, message.Width, message.Height);
             }
         }
 
@@ -106,20 +109,19 @@ namespace PaintTogetherServer.Core
         /// <param name="message"></param>
         public void ProcessClientPainted(ClientPaintedMessage message)
         {
-            Log.DebugFormat("Neue Malanfrage für Punkt 'X={0}:Y={1}'", message.Point.X, message.Point.Y);
+            Log.DebugFormat("Neue Malanfrage für Strich 'Xa={0}:Ya={1}' und 'Xb={2}:Yb={3}'", message.StartPoint.X, message.StartPoint.Y, message.EndPoint.X, message.EndPoint.Y);
             if (_paintContent == null)
             {
                 Log.Error("Malbereich noch nicht initialisiert - Malvorgang abgebrochen");
                 return;
             }
 
-            // Ob der Punkt in der Malerei liegt muss hier nicht geprüft werden,
-            // da der Client nur Pixel bemalt, die innerhalb der Malerei vorhanden sind
-            // sollte hier doch mal ein Fehler auftreten werden die Testcases erweitert und
-            // die Prüfung hier eingebaut - CCD:YAGNI - you ain't gonna need it
-            _paintContent.SetPixel(message.Point.X, message.Point.Y, message.Color);
+            using (var pen = new Pen(message.Color, 1f))
+            {
+                _paintGraph.DrawLine(pen, message.StartPoint, message.EndPoint);
+            }
 
-            OnNotifyPaint(new NotifyPaintToClientsMessage { Color = message.Color, Point = message.Point });
+            OnNotifyPaint(new NotifyPaintToClientsMessage { Color = message.Color, StartPoint = message.StartPoint, EndPoint = message.EndPoint });
         }
     }
 }

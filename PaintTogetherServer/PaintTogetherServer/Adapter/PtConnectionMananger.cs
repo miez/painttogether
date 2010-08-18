@@ -166,9 +166,9 @@ namespace PaintTogetherServer.Adapter
 
         public void ProcessNotifyPaintMessage(NotifyPaintToClientsMessage message)
         {
-            Log.DebugFormat("Information über neu bemalten Punkt wird an alle {0} Verbindungen gesendet", _confirmedConnections.Count);
+            Log.DebugFormat("Information über neu bemalten Strich wird an alle {0} Verbindungen gesendet", _confirmedConnections.Count);
 
-            var toSendContent = new PaintedScm { Point = message.Point, Color = message.Color };
+            var toSendContent = new PaintedScm { StartPoint = message.StartPoint, EndPoint = message.EndPoint, Color = message.Color };
             SendMessageContentToConfirmedSockets(toSendContent);
         }
 
@@ -278,10 +278,11 @@ namespace PaintTogetherServer.Adapter
         private void ProcessClientPaintScm(PaintScm paintScm)
         {
             var color = paintScm.Color;
-            var point = paintScm.Point;
+            var startP = paintScm.StartPoint;
+            var endP = paintScm.EndPoint;
 
-            Log.DebugFormat("Die Malanfrage wird weitergeleitet Punkt:{0}", point);
-            OnClientPainted(new ClientPaintedMessage { Color = color, Point = point });
+            Log.DebugFormat("Die Malanfrage wird weitergeleitet, Punkte:{0} und {1}", startP, endP);
+            OnClientPainted(new ClientPaintedMessage { Color = color, StartPoint = startP, EndPoint = endP });
         }
 
         /// <summary>

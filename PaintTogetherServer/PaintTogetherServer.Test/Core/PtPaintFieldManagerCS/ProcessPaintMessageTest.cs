@@ -43,41 +43,63 @@ namespace PaintTogetherServer.Test.Core.PtPaintFieldManagerCS
         public void SetUp()
         {
             _fieldManager = new PtPaintFieldManager();
-            _fieldManager.ProcessInitMessage(new InitMessage { Height = 324, Width = 123 });
+            _fieldManager.ProcessInitMessage(new InitMessage { Height = 600, Width = 600 });
 
             var request = new GetCurrentPaintContentRequest();
             _fieldManager.ProcessGetCurrentPaintContentRequest(request);
         }
 
         [Test]
-        public void Einen_Punkt_bemalen_Benachrichtigung_pruefen()
+        public void Einen_Strich_bemalen_Benachrichtigung_pruefen()
         {
             NotifyPaintToClientsMessage paintedMessage = null;
             _fieldManager.OnNotifyPaint += message => paintedMessage = message;
 
-            var point = new Point(3, 12);
+            var sPoint = new Point(3, 12);
+            var ePoint = new Point(6, 12);
             var color = Color.DodgerBlue;
 
-            _fieldManager.ProcessClientPainted(new ClientPaintedMessage { Color = color, Point = point });
+            _fieldManager.ProcessClientPainted(new ClientPaintedMessage { Color = color, StartPoint = sPoint, EndPoint = ePoint });
 
-            Assert.That(paintedMessage.Point, Is.EqualTo(point));
+            Assert.That(paintedMessage.StartPoint, Is.EqualTo(sPoint));
+            Assert.That(paintedMessage.EndPoint, Is.EqualTo(ePoint));
             Assert.That(paintedMessage.Color, Is.EqualTo(color));
         }
 
         [Test]
-        public void Einen_Punkt_bemalen_Malinhalt_pruefen()
+        public void Einen_Strich_bemalen_Malinhalt_pruefen()
         {
             _fieldManager.OnNotifyPaint += message => Assert.True(true); /* Dummyverdrahtung damit keine NRE auftritt*/
 
-            var point = new Point(42, 23);
-            var color = Color.FromArgb(42,143,123);
+            var sPoint = new Point(3, 12);
+            var ePoint = new Point(6, 12);
+            var color = Color.FromArgb(42, 143, 123);
 
-            _fieldManager.ProcessClientPainted(new ClientPaintedMessage { Color = color, Point = point });
+            _fieldManager.ProcessClientPainted(new ClientPaintedMessage { Color = color, StartPoint = sPoint,EndPoint = ePoint});
 
             var request = new GetCurrentPaintContentRequest();
             _fieldManager.ProcessGetCurrentPaintContentRequest(request);
 
-            Assert.That(request.Result.GetPixel(point.X, point.Y), Is.EqualTo(color));
+            // Nur den Start und Endpunkt prüfen
+            Assert.That(request.Result.GetPixel(sPoint.X, sPoint.Y), Is.EqualTo(color));
+            Assert.That(request.Result.GetPixel(ePoint.X, ePoint.Y), Is.EqualTo(color));
+        }
+
+        [Test]
+        public void Einen_Strich_mit_Punkten_ausserhalb_des_Malbereichs()
+        {
+            _fieldManager.OnNotifyPaint += message => Assert.True(true); /* Dummyverdrahtung damit keine NRE auftritt*/
+
+            var sPoint = new Point(1000, 0);
+            var ePoint = new Point(0, 1000);
+            var color = Color.FromArgb(42, 143, 123);
+
+            _fieldManager.ProcessClientPainted(new ClientPaintedMessage { Color = color, StartPoint = sPoint, EndPoint = ePoint });
+
+            var request = new GetCurrentPaintContentRequest();
+            _fieldManager.ProcessGetCurrentPaintContentRequest(request);
+
+            Assert.That(request.Result.GetPixel(500, 500), Is.EqualTo(color));
         }
     }
 }

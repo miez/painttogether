@@ -30,14 +30,19 @@ using System.Drawing;
 namespace PaintTogetherServer.Messages.Adapter
 {
     /// <summary>
-    /// Signalisierung für Clients über bemalten Punkt
+    /// Signalisierung für Clients über gemalten Strich
     /// </summary>
     public class NotifyPaintToClientsMessage
     {
         /// <summary>
-        /// Zu bemalender Punkt
+        /// Startpunkt für Strich
         /// </summary>
-        public Point Point { get; set; }
+        public Point StartPoint { get; set; }
+
+        /// <summary>
+        /// Endpunkt für Strich
+        /// </summary>
+        public Point EndPoint { get; set; }
 
         /// <summary>
         /// Malfarbe
