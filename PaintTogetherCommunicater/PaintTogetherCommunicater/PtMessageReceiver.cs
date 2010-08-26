@@ -110,7 +110,7 @@ namespace PaintTogetherCommunicater
 
             try
             {
-                ReceiveMessages(socket);
+                StartMessageReceiving(socket);
             }
             catch (Exception e)
             {
@@ -131,17 +131,20 @@ namespace PaintTogetherCommunicater
         /// SocketVerbindung, bis ihre Überwachung beendet wird
         /// </summary>
         /// <param name="socket"></param>
-        private void ReceiveMessages(Socket socket)
+        private void StartMessageReceiving(Socket socket)
         {
+            // Bytes die hinter einem EndBlock standen und noch Daten für eine
+            // neue Nachricht enthalten können
+            byte[] unprocessedBytes = new byte[0]; 
+
             while (_watchedSockets.Contains(socket))
             {
-                var allContent = ReceiveFullMessageBytes(socket);
+                var content = ReceiveMessageBytes(socket, unprocessedBytes);
 
                 if (!_watchedSockets.Contains(socket)) return;
 
-                var leftBytes = ProcessAllContent(allContent, socket);
-                allContent.Clear();
-                allContent.AddRange(leftBytes); // Alle noch nicht verarbeiteten Bytes für die weitere Verarbeitung verwenden
+                // Alle noch nicht verarbeiteten Bytes für die weitere Verarbeitung verwenden
+                unprocessedBytes = ProcessAllContent(content, socket);
             }
         }
 
@@ -151,21 +154,20 @@ namespace PaintTogetherCommunicater
         /// und liefert diesen dann als Ergebnis
         /// </summary>
         /// <param name="socket"></param>
+        /// <param name="unprocessedBytes">Bytes, die über diesen Socket empfangen, aber noch nicht verarbeitet wurden</param>
         /// <returns>Bytestrom mit Start- und Endbyteblock</returns>
-        private List<byte> ReceiveFullMessageBytes(Socket socket)
+        private List<byte> ReceiveMessageBytes(Socket socket, byte[] unprocessedBytes)
         {
             var result = new List<byte>();
+            result.AddRange(unprocessedBytes);
+
             var hasStartBlock = false;
             var emptyMessageCount = 0;
 
             do
             {
-                var buffer = new byte[32000]; // 32KB-Blöcke
-
-                // Ganz wichtig, nur die Bytes verwenden, die bei Receive als Datenbytes angegeben wurden!
-                var receiveCount = socket.Receive(buffer);
-                var content = new byte[receiveCount];
-                Array.Copy(buffer, content, receiveCount);
+                var content = ReceiveIncomingBytes(socket);
+                result.AddRange(content);
 
                 #region Behandlung leerer Datenströme
                 if (content.Length == 0)
@@ -187,15 +189,13 @@ namespace PaintTogetherCommunicater
                 {
                     if (!HasStartBlock(content))
                     {
-                        result.Clear();
+                        result.Clear(); // Empfangene Daten verwerfen
                         Log.WarnFormat("Es wurde eine Nachricht ohne Startcode empfangen: {0}", content);
                         continue;
                     }
                     hasStartBlock = true;
                 }
-                #endregion
-
-                result.AddRange(content);
+                #endregion                            
 
             } while (!HasEndBlock(result));
 
@@ -203,7 +203,26 @@ namespace PaintTogetherCommunicater
         }
 
         /// <summary>
-        /// Sendet für jede in dem Content verborgene Nachricht eine Empfangssignalisierung mit
+        /// Empfängt an dem angegebenem Sockets bytes und liefert nur
+        /// die Bytes, die von der Gegenseite gesendet wurden
+        /// </summary>
+        /// <param name="socket"></param>
+        /// <returns></returns>
+        private byte[] ReceiveIncomingBytes(Socket socket)
+        {
+            var buffer = new byte[32000]; // 32KB-Blöcke
+            
+            // Ganz wichtig, nur die Bytes verwenden, die bei Receive als Datenbytes angegeben wurden!
+            var receiveCount = socket.Receive(buffer);
+
+            var content = new byte[receiveCount];
+            Array.Copy(buffer, content, receiveCount);
+            
+            return content;
+        }
+
+        /// <summary>
+        /// Sendet für jede in dem Content enthaltene Nachricht eine Empfangssignalisierung mit
         /// den dekodierten Nachrichten
         /// </summary>
         /// <param name="allContent"></param>

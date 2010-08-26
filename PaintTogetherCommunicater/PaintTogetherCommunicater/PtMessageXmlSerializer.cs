@@ -387,11 +387,25 @@ namespace PaintTogetherCommunicater
         #endregion
 
         #region Util-Methoden
+        /// <summary>
+        /// Fügt der angegeben Node ein Attribut für die Farbe mit dem angegeben Farbwert hinzu
+        /// </summary>
+        /// <param name="toFillDocument"></param>
+        /// <param name="messageNode"></param>
+        /// <param name="color"></param>
         private static void AppendColorNode(XmlDocument toFillDocument, XmlNode messageNode, Color color)
         {
             AppendIntAttr(toFillDocument, messageNode, "Color", color.ToArgb());
         }
 
+        /// <summary>
+        /// Erzeugt an der angegeben Node ein neues Attribut zum speichern einer Zahl.
+        /// Das Attribut besitzt den angegeben Namen
+        /// </summary>
+        /// <param name="toFillDocument"></param>
+        /// <param name="messageNode"></param>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
         private static void AppendIntAttr(XmlDocument toFillDocument, XmlNode messageNode, string name, int value)
         {
             var attr = toFillDocument.CreateAttribute(name);
@@ -399,6 +413,12 @@ namespace PaintTogetherCommunicater
             messageNode.Attributes.Append(attr);
         }
 
+        /// <summary>
+        /// Fügt der angebenen Node ein Attribut mit dem angebenem Alias an
+        /// </summary>
+        /// <param name="toFillDocument"></param>
+        /// <param name="messageNode"></param>
+        /// <param name="alias"></param>
         private static void AppendAliasNode(XmlDocument toFillDocument, XmlNode messageNode, string alias)
         {
             var aliasAttr = toFillDocument.CreateAttribute("Alias");
@@ -406,21 +426,43 @@ namespace PaintTogetherCommunicater
             messageNode.Attributes.Append(aliasAttr);
         }
 
+        /// <summary>
+        /// Liest eine Zahl aus dem angegebenem Attribut der übergebenen Node
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
         private static int ReadIntAttr(XmlNode node, string name)
         {
             return Int32.Parse(node.Attributes[name].Value);
         }
 
+        /// <summary>
+        /// Liefert einem den Farbwert, die in dem Farbattribut der angegeben Node gespeichert ist
+        /// </summary>
+        /// <param name="toReadMessageNode"></param>
+        /// <returns></returns>
         private static Color ReadColorAttr(XmlNode toReadMessageNode)
         {
             return Color.FromArgb(Int32.Parse(toReadMessageNode.Attributes["Color"].Value));
         }
 
+        /// <summary>
+        /// Liest den Alias aus dem entsprechendem Attribut an der übergeben Node aus
+        /// </summary>
+        /// <param name="toReadMessageNode"></param>
+        /// <returns></returns>
         private static string ReadAliasAttr(XmlNode toReadMessageNode)
         {
             return toReadMessageNode.Attributes["Alias"].Value;
         }
 
+        /// <summary>
+        /// Kodiert eine Bild in Base64, damit dieses in eine CDATA-Sektion des XML geschrieben werden kann
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="format"></param>
+        /// <returns></returns>
         private static string ImageToBase64String(Image image, ImageFormat format)
         {
             using (var stream = new MemoryStream())
@@ -430,6 +472,11 @@ namespace PaintTogetherCommunicater
             }
         }
 
+        /// <summary>
+        /// Dekodiert einen Base64-String in ein Bild
+        /// </summary>
+        /// <param name="base64"></param>
+        /// <returns></returns>
         private static Image ImageFromBase64String(string base64)
         {
             using (var stream = new MemoryStream(Convert.FromBase64String(base64)))
