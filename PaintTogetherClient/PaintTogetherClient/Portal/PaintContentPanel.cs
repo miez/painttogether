@@ -30,6 +30,10 @@ using System.Windows.Forms;
 
 namespace PaintTogetherClient.Portal
 {
+    /// <summary>
+    /// Malbereich, bewerkstelligt das Malen von Strichen
+    /// in der GUI
+    /// </summary>
     public sealed class PaintContentPanel : Panel
     {
         /// <summary>
@@ -47,6 +51,11 @@ namespace PaintTogetherClient.Portal
             DoubleBuffered = true;
         }
 
+        /// <summary>
+        /// Wenn der Hintergrund des Panels neu gezeichnet wird,
+        /// dann den aktuellen Malbereich auf das Panel malen
+        /// </summary>
+        /// <param name="pevent"></param>
         protected override void OnPaintBackground(PaintEventArgs pevent)
         {
             base.OnPaintBackground(pevent);
@@ -60,6 +69,10 @@ namespace PaintTogetherClient.Portal
             pevent.Graphics.DrawImage(_paintContent, 0, 0);
         }
 
+        /// <summary>
+        /// Initialisiert den Malbereich mit einem StartBild
+        /// </summary>
+        /// <param name="bitmap"></param>
         internal void InitPaintContent(Bitmap bitmap)
         {
             Size = bitmap.Size;
@@ -74,7 +87,7 @@ namespace PaintTogetherClient.Portal
         }
 
         /// <summary>
-        /// 
+        /// Malt eine neue Linie in dem Malbereich
         /// </summary>
         /// <param name="startP"></param>
         /// <param name="endP"></param>

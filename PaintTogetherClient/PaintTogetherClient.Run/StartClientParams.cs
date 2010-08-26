@@ -73,6 +73,11 @@ namespace PaintTogetherClient.Run
             return result;
         }
 
+        /// <summary>
+        /// Prüft ob der Alias angegeben wurde und auf die AliasRegEx passt.
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         private static string ValidateAlias(List<string> args)
         {
             var result = GetParameterValue(args, AliasParamName);
@@ -91,6 +96,11 @@ namespace PaintTogetherClient.Run
             return result;
         }
 
+        /// <summary>
+        /// Liefert die in der Parameterliste angegeben Farbe oder Color.Empty
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         private static Color ValidateColor(List<string> args)
         {
             var sValue = GetParameterValue(args, ColorParamName);
@@ -112,6 +122,15 @@ namespace PaintTogetherClient.Run
             return Color.FromName(sValue);
         }
 
+        /// <summary>
+        /// Erstellt aus den Angaben r, g, b die richtige Farbe,
+        /// sollte eine der Angaben fehlerhaft sein, so wird Color.Empty
+        /// zurück gegeben
+        /// </summary>
+        /// <param name="r"></param>
+        /// <param name="g"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         private static Color ColorFromRgb(string r, string g, string b)
         {
             var rInt = GetColorInt(r);
@@ -126,6 +145,12 @@ namespace PaintTogetherClient.Run
             return Color.FromArgb(rInt, gInt, bInt);
         }
 
+        /// <summary>
+        /// Ermittelt, ob es sich bei part um eine Zahl zwischen 0 und 256 handelt und
+        /// liefert diese zurück, andernfalls -1
+        /// </summary>
+        /// <param name="part"></param>
+        /// <returns></returns>
         private static int GetColorInt(string part)
         {
             int colorPart;
@@ -136,6 +161,12 @@ namespace PaintTogetherClient.Run
             return -1;
         }
 
+        /// <summary>
+        /// Überprüft ob ein server explizit angegeben wurde und gibt den Wert zurück,
+        /// ansonsten wird "localhost" zurückgegeben
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         private static string ValidateServer(List<string> args)
         {
             var result = GetParameterValue(args, ServerParamName);
@@ -147,6 +178,17 @@ namespace PaintTogetherClient.Run
             return result;
         }
 
+        /// <summary>
+        /// Überprüft ob in der angegeben Parameterliste der benannte Parameter enthalten ist
+        /// und liefert dessen Wert, falls dieser in der angegebenen Min-Max-Grenze liegt.
+        /// Ist der Parameter nicht angegeben, so wird der Standartwert zurückgegeben
+        /// </summary>
+        /// <param name="args">Zu prüfende Parameterliste</param>
+        /// <param name="name">Parametername</param>
+        /// <param name="min">Minimalwert</param>
+        /// <param name="max">Maximalwert</param>
+        /// <param name="defaultValue">Standardwert</param>
+        /// <returns></returns>
         private static int ValidateIntValue(List<string> args, string name, int min, int max, int defaultValue)
         {
             int result;

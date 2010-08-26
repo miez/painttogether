@@ -35,6 +35,9 @@ using PaintTogetherClient.Messages.Portal;
 
 namespace PaintTogetherClient
 {
+    /// <summary>
+    /// GUI für den PaintTogetherClient
+    /// </summary>
     public partial class PtClientPortal : Form, IPtClientPortal
     {
         /// <summary>
@@ -79,7 +82,7 @@ namespace PaintTogetherClient
         /// </summary>
         private Point _lastMousePos = new Point(-100, -100);
 
-        #region IPtClientPortal Member
+        #region IPtClientPortal Member, Kommentare am Interface
 
         public event Action<TakePictureRequest> OnRequestTakePicture;
 
@@ -120,16 +123,27 @@ namespace PaintTogetherClient
         }
         #endregion
 
+        /// <summary>
+        /// Leert die Aliasliste
+        /// </summary>
         private void RemoveAllAlias()
         {
             lstViewPainter.Items.Clear();
         }
 
+        /// <summary>
+        /// Malt eine Linie in den Malbereich
+        /// </summary>
+        /// <param name="message"></param>
         private void PaintLine(PaintedMessage message)
         {
             pnContentPanel.PaintLine(message.StartPoint, message.EndPoint, message.Color);
         }
 
+        /// <summary>
+        /// Entfernt einen Alias aus der Beteiligtenliste
+        /// </summary>
+        /// <param name="message"></param>
         private void RemoveAlias(RemoveAliasMessage message)
         {
             ListViewItem toRemoveItem = null;
@@ -149,16 +163,31 @@ namespace PaintTogetherClient
             }
         }
 
+        /// <summary>
+        /// Fügt einen neuen Beteiligten in die Beteiligtenliste hinzu
+        /// </summary>
+        /// <param name="message"></param>
         private void AddAlias(AddAliasMessage message)
         {
             lstViewPainter.Items.Add(new ListViewItem(message.Alias) { ForeColor = message.Color });
         }
 
+        /// <summary>
+        /// Clickeventbehandlung für btnTakePciture <para/>
+        /// Löst das Aufnehmen eines Bildes aus
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnTakePictureClick(object sender, EventArgs e)
         {
             TakePicture();
         }
 
+        /// <summary>
+        /// Fordert den Anwender zum angeben einer Datei für die Speicherung
+        /// des Bildstandes auf und speichert dort ein Bild des aktuellen
+        /// Malbereichs
+        /// </summary>
         private void TakePicture()
         {
             var saveDlg = new SaveFileDialog();
@@ -174,11 +203,21 @@ namespace PaintTogetherClient
             }
         }
 
+        /// <summary>
+        /// Clickeventbehandlung für btnCloseClint<para/>
+        /// Schließt die Anwendung
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnCloseClientClick(object sender, EventArgs e)
         {
             Close(); // Programm schließen
         }
 
+        /// <summary>
+        /// Beim Schließen der Anwendung wird die Serververbindung getrennt
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnClosing(CancelEventArgs e)
         {
             // Serververbindung beenden
@@ -187,6 +226,13 @@ namespace PaintTogetherClient
             base.OnClosing(e);
         }
 
+        /// <summary>
+        /// Wird ausgelöst, wenn der Anwender die Maus über den Malbereich bewegt <para/>
+        /// Wenn der Anwender die Maus gedrückt hält, dann werden zwischen den einzelnen
+        /// Punkten Linien gemalt
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void PnPaintContentMouseMove(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -213,11 +259,19 @@ namespace PaintTogetherClient
             _lastMousePos = new Point(-100, -100);
         }
 
+        /// <summary>
+        /// Sendet eine neu gemalte Linie an den Server
+        /// </summary>
+        /// <param name="message"></param>
         private void SendOnPaint(object message)
         {
             OnPaintSelf(message as PaintSelfMessage);
         }
 
+        /// <summary>
+        /// Initialisiert den Malbereich
+        /// </summary>
+        /// <param name="message"></param>
         private void InitContent(InitPortalMessage message)
         {
             // titel der Anwendung setzen
@@ -228,11 +282,20 @@ namespace PaintTogetherClient
             pnContentPanel.InitPaintContent(message.PaintContent);
         }
 
+        /// <summary>
+        /// Wird ausgelöst, wenn die Größe des Malbereichs geändert wird und
+        /// reorganisiert die Größe des Clientfensters
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void pnContentPanel_SizeChanged(object sender, EventArgs e)
         {
             ResizeForm();
         }
 
+        /// <summary>
+        /// Bestimmt anhand der Größe des Malbereich die Größe für die Clientanwendung
+        /// </summary>
         private void ResizeForm()
         {
             var size = new Size(pnContentPanel.Width + pnRight.Width + _winBorderWidth, pnContentPanel.Height + _winBorderHeight);

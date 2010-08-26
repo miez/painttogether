@@ -32,6 +32,11 @@ using System.Windows.Forms;
 
 namespace PaintTogetherClient.Run
 {
+    /// <summary>
+    /// Clientplatine die einen Pt-Client darstellt. Dazu werden
+    /// die 3 benötigten EBC "PtClientCore", "PTClientPortal" sowie "PtClientServerApdater"
+    /// verdrahtet
+    /// </summary>
     internal class Client
     {
         /// <summary>
