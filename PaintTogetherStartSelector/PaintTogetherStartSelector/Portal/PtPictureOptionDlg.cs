@@ -32,6 +32,10 @@ using PaintTogetherStartSelector.Messages;
 
 namespace PaintTogetherStartSelector.Portal
 {
+    /// <summary>
+    /// Dialog zur Eingabe der für die Erstellung eines Pt-Servers benötigten
+    /// Daten.
+    /// </summary>
     public partial class PtPictureOptionDlg : Form
     {
         /// <summary>
@@ -70,6 +74,10 @@ namespace PaintTogetherStartSelector.Portal
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Überprüft die Eingaben des Nutzers und zeigt bei Fehlern einen Hinweis an
+        /// </summary>
+        /// <returns></returns>
         private bool ValidateInputsAndShowErrors()
         {
             var result = ValidateInputUtils.ValidatePort(tbPort.Text);
@@ -96,6 +104,10 @@ namespace PaintTogetherStartSelector.Portal
             return true;
         }
 
+        /// <summary>
+        /// Testet den vom Nutzer angegeben Port auf Verfügbarkeit
+        /// </summary>
+        /// <returns>true, wenn Port frei</returns>
         private bool TestPort()
         {
             var request = new TestLocalPortRequest();
@@ -106,6 +118,15 @@ namespace PaintTogetherStartSelector.Portal
             return request.Result;
         }
 
+        /// <summary>
+        /// ClickEventbehandlung für btnStartServer <para/>
+        /// Validiert die Eingaben des Nutzers und prüft den angegeben
+        /// Port und bei Fehlern einen Hinweis an. Bei Erfolg schließt sich der
+        /// Dialog, wobei die Eingaben des Nutzers weiterhin am Dialog abgefragt
+        /// werden können
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnStartServerClick(object sender, EventArgs e)
         {
             if (ValidateInputsAndShowErrors())

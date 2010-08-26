@@ -81,8 +81,15 @@ namespace PaintTogetherStartSelector.Portal
             _serverDlg.OnRequestTestLocalPort += message => OnRequestTestLocalPort(message);
         }
 
+        /// <summary>
+        /// Die vom Nutzer ausgewählte Farbe
+        /// </summary>
         private Color Color { get; set; }
 
+        /// <summary>
+        /// Öffnet den Farbauswahldialog und nimmt die
+        /// vom Nutzer ausgewählte Farbe entgegen
+        /// </summary>
         private void ChooseColor()
         {
             var dlg = new ColorDialog();
@@ -93,6 +100,11 @@ namespace PaintTogetherStartSelector.Portal
             }
         }
 
+        /// <summary>
+        /// Öffnet das Servereinstellungsfenster, wo die Einstellungen
+        /// zum Start eines Servers abgefragt werden <para/>
+        /// Fordert anschließend zum Start des Servers und Clients auf
+        /// </summary>
         private void StartServerDlg()
         {
             Hide();
@@ -113,6 +125,12 @@ namespace PaintTogetherStartSelector.Portal
             Close();
         }
 
+        /// <summary>
+        /// Öffnet den Dialog zum Eingeben der für den Clientstart benötigten
+        /// Angaben<para/>
+        /// Fordert anschließend zum Starten eines Clients mit den angegebenen Einstellungen
+        /// auf
+        /// </summary>
         private void StartClientDlg()
         {
             Hide();
@@ -154,11 +172,23 @@ namespace PaintTogetherStartSelector.Portal
             return true;
         }
 
+        /// <summary>
+        /// Clickeventbehandlung für btnChooseColor
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnChooseColorClick(object sender, EventArgs e)
         {
             ChooseColor();
         }
 
+        /// <summary>
+        /// Clickeventbehandlung für btnStartServer <para/>
+        /// Prüft die Eingaben Alias und Farbe und öffnet anschließend
+        /// den Dialog zur Eingabe der Serverdaten
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnStartServerClick(object sender, EventArgs e)
         {
             if (ValidateInputAndShowErrors())
@@ -167,6 +197,13 @@ namespace PaintTogetherStartSelector.Portal
             }
         }
 
+        /// <summary>
+        /// Clickeventbehandlung für btnConnectToServer <para/>
+        /// Prüft die Eingaben Alias und Farbe und öffnet anschließend
+        /// den Dialog zur Eingabe der Clientdaten
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnConnectToServerClick(object sender, EventArgs e)
         {
             if (ValidateInputAndShowErrors())

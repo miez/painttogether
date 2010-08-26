@@ -43,6 +43,7 @@ namespace PaintTogetherStartSelector.Run
 
             var startSelector = new StartSelector();
 
+            // Bei Application Run muss das Portal als WindowsForm übergeben werden
             Application.Run(startSelector.Portal);
         }
     }

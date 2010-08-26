@@ -31,6 +31,10 @@ using PaintTogetherStartSelector.Messages;
 
 namespace PaintTogetherStartSelector.Portal
 {
+    /// <summary>
+    /// Dialog zum Eingeben der Daten die für einen Clientstart
+    /// erforderlich sind
+    /// </summary>
     public partial class PtConnectToServerOptionDlg : Form
     {
         /// <summary>
@@ -70,6 +74,11 @@ namespace PaintTogetherStartSelector.Portal
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Überprüft ob zu dem vom Nutzer angegebenem Rechner und dem
+        /// angegebenem Port eine Connection aufgebaut werden kann
+        /// </summary>
+        /// <returns></returns>
         private bool TestServer()
         {
             var request = new TestServerRequest();
@@ -81,6 +90,10 @@ namespace PaintTogetherStartSelector.Portal
             return request.Result;
         }
 
+        /// <summary>
+        /// Validiert die Eingaben des Nutzers und zeigt ggf. einen Fehler an
+        /// </summary>
+        /// <returns></returns>
         private bool ValidateInputsAndShowErrors()
         {
             var result = ValidateInputUtils.ValidatePort(tbPort.Text);
@@ -98,6 +111,11 @@ namespace PaintTogetherStartSelector.Portal
             return true;
         }
 
+        /// <summary>
+        /// ClickEventBehandlung von btnConnectToServer
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnConnectToServerClick(object sender, EventArgs e)
         {
             if (ValidateInputsAndShowErrors())
