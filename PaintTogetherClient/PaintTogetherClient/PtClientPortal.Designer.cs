@@ -130,8 +130,9 @@ namespace PaintTogetherClient
             this.pnContentPanel.Name = "pnContentPanel";
             this.pnContentPanel.Size = new System.Drawing.Size(506, 333);
             this.pnContentPanel.TabIndex = 2;
-            this.pnContentPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PnPaintContentMouseMove);
             this.pnContentPanel.SizeChanged += new System.EventHandler(this.pnContentPanel_SizeChanged);
+            this.pnContentPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PnContentPanelMouseDown);
+            this.pnContentPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PnPaintContentMouseMove);
             // 
             // PtClientPortal
             // 

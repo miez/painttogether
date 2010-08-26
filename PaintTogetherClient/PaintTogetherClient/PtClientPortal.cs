@@ -240,16 +240,12 @@ namespace PaintTogetherClient
                 var curPoint = new Point(e.X, e.Y);
                 if (_lastMousePos.X == _lastMousePos.Y && _lastMousePos.X == -100)
                 {
-                    // erster Punkt, noch nicht malen
+                    // erster Punkt, hier nicht malen, das wird durch MouseClick gemacht
                     _lastMousePos = curPoint;
                     return;
                 }
 
-                pnContentPanel.PaintLine(_lastMousePos, curPoint, ClientColor);
-
-                // Malanfrage in extra Thread damit GUI nicht hackt
-                var thread = new Thread(SendOnPaint);
-                thread.Start(new PaintSelfMessage { Color = ClientColor, StartPoint = _lastMousePos, EndPoint = curPoint });
+                PaintNewLine(_lastMousePos,curPoint);
 
                 _lastMousePos = curPoint;
                 return;
@@ -257,6 +253,34 @@ namespace PaintTogetherClient
 
             // Markieren, das nicht gemalt werden soll
             _lastMousePos = new Point(-100, -100);
+        }
+
+        /// <summary>
+        /// Wird ausgelöst, wenn der Anwender mit der Maus auf den Malbereich klickt.
+        /// Das löst das Malen eines "Punktes" an der Stelle aus
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PnContentPanelMouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                // Da zur Zeit nur das Malen von Strichen vorgesehen ist, muss
+                // damit auch ein einfacher Punkt gemalt werden kann, ein 2Pixel langer
+                // Strich gemalt werden. Später könnte man noch eine Nachricht für das 
+                // malen von Punkten erstellen
+                PaintNewLine(new Point(e.X, e.Y), new Point(e.X + 1, e.Y));
+            }
+        }
+
+        private void PaintNewLine(Point fstPnt, Point sndPtn)
+        {
+            // Im Clientbereich schon einmal malen, ohne das die Bestätigung vom Server kommt
+            pnContentPanel.PaintLine(fstPnt, sndPtn, ClientColor);
+
+            // Malanfrage in extra Thread damit GUI nicht hackt
+            var thread = new Thread(SendOnPaint);
+            thread.Start(new PaintSelfMessage { Color = ClientColor, StartPoint = fstPnt, EndPoint = sndPtn });
         }
 
         /// <summary>
