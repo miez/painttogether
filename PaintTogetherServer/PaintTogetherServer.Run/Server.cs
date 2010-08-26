@@ -33,6 +33,11 @@ using PaintTogetherServer.Messages.Core;
 
 namespace PaintTogetherServer.Run
 {
+    /// <summary>
+    /// Serverplatine die einen PaintTogetherServer darstellt, dabei werden
+    /// die drei EBC PtServerPortal, PtServerClientAdapter sowie PtServerCore
+    /// miteinander verbunden
+    /// </summary>
     internal class Server
     {
         /// <summary>
