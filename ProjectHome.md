@@ -1,0 +1,1 @@
+Einfaches Client-Server Malprogramm für das parallele und gleichezeite Malen mit mehreren Beteiligten. Entwickelt nach dem Ansatz der "Event Based Components" in C# 3.5
